@@ -1,0 +1,111 @@
+{
+  "name": "MultiPlaydate",
+  "version": "1.0.0",
+  "description": "A React-based thingy",
+  "main": "index.html",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "webpack --mode=production"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "prettier --write",
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
+    "react": "16.8.6",
+    "react-dom": "16.8.6"
+  },
+  "devDependencies": {
+    "@babel/core": "7.4.4",
+    "@babel/plugin-transform-react-jsx": "7.3.0",
+    "babel-eslint": "10.0.1",
+    "babel-loader": "8.0.6",
+    "eslint": "5.16.0",
+    "eslint-config-standard": "12.0.0",
+    "eslint-plugin-import": "2.17.2",
+    "eslint-plugin-node": "9.0.1",
+    "eslint-plugin-promise": "4.1.1",
+    "eslint-plugin-react": "7.13.0",
+    "eslint-plugin-standard": "4.0.0",
+    "husky": "2.2.0",
+    "lint-staged": "8.1.6",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.0.2",
+    "webpack": "4.31.0",
+    "webpack-cli": "3.3.2",
+    "webpack-dev-server": "3.3.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Coding-Christian/dice-roller.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Coding-Christian/dice-roller/issues"
+  },
+  "homepage": "https://github.com/Coding-Christian/dice-roller#readme",
+  "eslintIgnore": [],
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "parser": "babel-eslint",
+    "extends": [
+      "plugin:react/recommended",
+      "eslint:recommended",
+      "standard"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "rules": {
+      "semi": [
+        "error",
+        "always"
+      ],
+      "padded-blocks": 0,
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "curly": [
+        "error",
+        "multi-line"
+      ],
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error"
+          ]
+        }
+      ],
+      "space-before-function-paren": [
+        "error",
+        {
+          "anonymous": "always",
+          "named": "never",
+          "asyncArrow": "always"
+        }
+      ],
+      "react/prop-types": 0,
+      "react/react-in-jsx-scope": 0
+    }
+  }
+}
