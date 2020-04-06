@@ -9,7 +9,7 @@ const TestDiv = styled.div`
 
 ReactDOM.render(
   <>
-    <TestDiv></TestDiv>
+    <TestDiv>Hello World!</TestDiv>
     <StyledButton onClick={() => {}} color="light" label="Click Me!" />
   </>,
   document.getElementById('root')

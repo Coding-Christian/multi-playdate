@@ -11,6 +11,7 @@ function StyledButton(props) {
     border: none;
     border-radius: 12px;
     box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
+    margin: 10px;
     &:focus {
       text-decoration: underline;
       outline: none;
