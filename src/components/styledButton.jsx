@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-function StyledButton(props) {
+function StyledButton({ onClick, label }) {
   const StyledButton = styled.button`
     height: 50px;
     font-family: "Raleway", sans-serif;
@@ -24,7 +24,7 @@ function StyledButton(props) {
       box-shadow: inset 5px 5px 10px #e0e0e0, inset -5px -5px 10px #ffffff;
     }
   `;
-  return <StyledButton onClick={props.onClick}>{props.label}</StyledButton>;
+  return <StyledButton onClick={onClick}>{label}</StyledButton>;
 }
 
 export default StyledButton;
