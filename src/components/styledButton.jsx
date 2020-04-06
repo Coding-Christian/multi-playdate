@@ -3,13 +3,13 @@ import styled from '@emotion/styled';
 
 function StyledButton({ onClick, label }) {
   const StyledButton = styled.button`
-    height: 50px;
+    height: 30px;
     font-family: "Raleway", sans-serif;
-    font-size: 1.5rem;
+    font-weight: bold;
     background-color: #fff;
-    padding: 0px 20px;
+    padding: 0px 15px;
     border: none;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 5px 5px 10px #d9d9d9, -5px -5px 10px #ffffff;
     margin: 10px;
     &:focus {
