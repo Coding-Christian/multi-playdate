@@ -1,8 +1,8 @@
 import React from 'react';
-import StyledH1 from './styledH1';
-import StyledButton from './styledButton';
-import StyledInput from './styledInput';
-import StyledContainer from './styledContainer';
+import StyledH1 from './emotion/styledH1';
+import StyledButton from './emotion/styledButton';
+import StyledInput from './emotion/styledInput';
+import StyledContainer from './emotion/styledContainer';
 
 function UserEntry(props) {
   // const [steamId, setSteamId] = useState('');
