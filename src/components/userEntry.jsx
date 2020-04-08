@@ -27,6 +27,9 @@ function UserEntry(props) {
       box-shadow: inset -5px -5px 7px #ffff,
         inset 5px 5px 7px rgba(94, 104, 121, 0.671);
     }
+    & * {
+      z-index: 1;
+    }
   `;
   return (
     <StyledForm>
