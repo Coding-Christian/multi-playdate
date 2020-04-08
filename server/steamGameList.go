@@ -21,14 +21,6 @@ func (r *SteamGameListResponse) Marshal() ([]byte, error) {
 	return json.Marshal(r)
 }
 
-func (r *Response) Marshal() ([]byte, error) {
-	return json.Marshal(r)
-}
-
-func (r *Game) Marshal() ([]byte, error) {
-	return json.Marshal(r)
-}
-
 type SteamGameListResponse struct {
 	GameList GameList `json:"response"`
 }

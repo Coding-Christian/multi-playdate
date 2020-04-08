@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	// "./models/steamGameList"
 
@@ -34,27 +35,6 @@ func getGamesForPlayer(ID string) ([]Game, error) {
 	return steamgames.GameList.Games, nil
 }
 
-func convertGameSliceToSet(games []Game) Set {
-	gameSet := NewSet()
-	for _, elem := range games {
-		gameSet.m[elem.Appid] = true
-	}
-	return *gameSet
-}
-
-func findCommonGames(allGames [][]Game) []int {
-	primarySet := convertGameSliceToSet(allGames[0])
-	for _, gameSlice := range allGames[1:] {
-		primarySet.Union(convertGameSliceToSet(gameSlice))
-	}
-	sharedGames := make([]int, 0, len(primarySet.m))
-	for k := range primarySet.m {
-		sharedGames = append(sharedGames, k)
-	}
-
-	return sharedGames
-}
-
 func getDetailsForGame(appID int) (*GameInfo, error) {
 	steamGameInfoURL := fmt.Sprintf("https://store.steampowered.com/api/appdetails?appids=%d", appID)
 	fmt.Println(steamGameInfoURL)
@@ -73,12 +53,47 @@ func getDetailsForGame(appID int) (*GameInfo, error) {
 	if err != nil {
 		return nil, errors.New("Error parsing Request")
 	}
-	// fmt.Println(gameInfo)
 	var response GameInfo
 	for _, v := range gameInfo {
 		response = v.GameInfo
 	}
 	return &response, nil
+}
+
+func convertGameSliceToSet(games []Game) Set {
+	gameSet := NewSet()
+	for _, elem := range games {
+		gameSet.m[elem.Appid] = true
+	}
+	return *gameSet
+}
+
+func filterByMultiplayer(games []GameInfo) []GameInfo {
+	acceptableTypes := map[string]bool{"Multi-player": true, "Co-op": true, "Local Multi-Player": true, "Local Co-op": true, "MMO": true}
+	filteredGames := make([]GameInfo, 0, len(games))
+	for i := range games {
+		types := games[i].Categories
+		for _, elem := range types {
+			if _, ok := acceptableTypes[*elem.Description]; ok {
+				filteredGames = append(filteredGames, games[i])
+				break
+			}
+		}
+	}
+	return filteredGames
+}
+
+func findCommonGames(allGames [][]Game) []int {
+	primarySet := convertGameSliceToSet(allGames[0])
+	for _, gameSlice := range allGames[1:] {
+		primarySet.Union(convertGameSliceToSet(gameSlice))
+	}
+	sharedGames := make([]int, 0, len(primarySet.m))
+	for k := range primarySet.m {
+		sharedGames = append(sharedGames, k)
+	}
+
+	return sharedGames
 }
 
 func getDetailsForGames(appIDs []int) ([]GameInfo, error) {
@@ -113,39 +128,28 @@ func getGamesForAllPlayers(IDs []string) ([]GameInfo, error) {
 	return gameInfo, nil
 }
 
-func filterByMultiplayer(games []GameInfo) []GameInfo {
-	acceptableTypes := map[string]bool{"Multi-player": true, "Co-op": true, "Local Multi-Player": true, "Local Co-op": true, "MMO": true}
-	filteredGames := make([]GameInfo, 0, len(games))
-	for i := range games {
-		types := games[i].Categories
-		for _, elem := range types {
-			if _, ok := acceptableTypes[*elem.Description]; ok {
-				filteredGames = append(filteredGames, games[i])
-				break
-			}
-		}
-	}
-	return filteredGames
-}
-
-func sharedGames(w http.ResponseWriter, r *http.Request) {
-	var steamIDs []string
-
-	err := json.NewDecoder(r.Body).Decode(&steamIDs)
-	// steamIDs := []string{"76561198076015385", "76561197991893905", "76561198057020032"}
-	if err != nil {
+func getSharedGames(w http.ResponseWriter, r *http.Request) {
+	steamIDsParameter, ok := r.URL.Query()["steamids"]
+	if !ok {
 		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte(err.Error()))
+		w.Write([]byte("steamids query parameter missing or malformed"))
+		return
+	}
+
+	steamIDsParsed := strings.Split(steamIDsParameter[0], ",")
+	if len(steamIDsParsed) < 2 {
+		w.WriteHeader(http.StatusNotAcceptable)
+		w.Write([]byte("steamids query parameter missing or malformed"))
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 
-	allGames, err := getGamesForAllPlayers(steamIDs)
-	multiplayerGames := filterByMultiplayer(allGames)
+	allGames, err := getGamesForAllPlayers(steamIDsParsed)
 	if err != nil {
-		log.Fatalln("There was a problem")
+		log.Fatalln(err)
 	}
+	multiplayerGames := filterByMultiplayer(allGames)
 
 	bytes, _ := json.Marshal(multiplayerGames)
 
@@ -153,13 +157,12 @@ func sharedGames(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte(bytes))
 }
 
-const apiKey = "72447D2AB792726DA3F6EB87F871A943"
+const apiKey = ""
 
-//
 func main() {
 	router := mux.NewRouter()
 
 	api := router.PathPrefix("/api").Subrouter()
-	api.HandleFunc("/shared/games", sharedGames).Methods(http.MethodPost)
+	api.HandleFunc("/shared/games", getSharedGames).Methods(http.MethodGet)
 	log.Fatal(http.ListenAndServe(":8000", router))
 }
