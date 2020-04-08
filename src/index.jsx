@@ -6,8 +6,8 @@ import StyledInput from './components/styledInput';
 
 ReactDOM.render(
   <>
-    <StyledH1 title="Hello World" textAlign="left" />
-    <StyledButton onClick={() => {}} label="Click Me!" />
+    <StyledH1>Hello World!</StyledH1>
+    <StyledButton title="Click Me!">Click Me!</StyledButton>
     <StyledInput type="text" placeholder="Type Here!" />
   </>,
   document.getElementById('root')
