@@ -32,6 +32,10 @@ module.exports = {
     contentBase: publicPath,
     watchContentBase: true,
     stats: 'minimal',
-    proxy: {}
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000'
+      }
+    }
   }
 };
