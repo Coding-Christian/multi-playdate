@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 
-const StyledH1 = styled.h1`
+const StyledP = styled.p`
   font-family: "Raleway", sans-serif;
   margin: 10px;
 `;
 
-export default StyledH1;
+export default StyledP;
