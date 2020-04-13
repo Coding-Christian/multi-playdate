@@ -23,7 +23,13 @@ function UserEntry(props) {
     );
   }
   const [steamIds, setSteamIds] = useState(initState);
-  // function getSharedGames() {}
+  async function getSharedGames() {
+    const response = await fetch(
+      `/api/shared/games?steamids=${steamIds.join(',')}`
+    );
+    const games = await response.json();
+    return games;
+  }
   function handleChange(e) {
     const newSteamIds = [...steamIds];
     newSteamIds[e.target.id] = e.target.value;
@@ -34,7 +40,9 @@ function UserEntry(props) {
       <StyledH1>MultiPlayDate</StyledH1>
       <form>
         {inputs}
-        <StyledButton type="button">Play</StyledButton>
+        <StyledButton onClick={getSharedGames} type="button">
+          Play
+        </StyledButton>
       </form>
     </StyledContainer>
   );
