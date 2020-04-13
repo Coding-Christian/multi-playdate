@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import StyledH1 from './emotion/styledH1';
+import StyledP from './emotion/styledP';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
@@ -46,10 +47,10 @@ function UserEntry(props) {
         </StyledButton>
       </form>
       {sharedGames.length === 0 ? null : (
-        <div>
-          You have {sharedGames.length} Steam Games in common:
-          {sharedGames.map(game => game.name).join(', ')}.
-        </div>
+        <StyledP>
+          You have <strong>{sharedGames.length}</strong> Steam Games in common:
+          {' ' + sharedGames.map(game => game.name).join(', ')}.
+        </StyledP>
       )}
     </StyledContainer>
   );

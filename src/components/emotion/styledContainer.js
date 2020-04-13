@@ -6,6 +6,7 @@ const StyledContainer = styled.div`
   justify-content: center;
   align-items: center;
   width: fit-content;
+  max-width: 80%;
   box-sizing: border-box;
   background: #f7f7f7;
   padding: 20px;
