@@ -6,6 +6,7 @@ import StyledContainer from './emotion/styledContainer';
 
 function UserEntry(props) {
   const numPlayers = 2;
+  const [sharedGames, setSharedGames] = useState([]);
   let initState = [];
   let inputs = [];
   for (let i = 0; i < numPlayers; i++) {
@@ -28,7 +29,7 @@ function UserEntry(props) {
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
     const games = await response.json();
-    return games;
+    setSharedGames(games);
   }
   function handleChange(e) {
     const newSteamIds = [...steamIds];
@@ -44,6 +45,12 @@ function UserEntry(props) {
           Play
         </StyledButton>
       </form>
+      {sharedGames.length === 0 ? null : (
+        <div>
+          You have {sharedGames.length} Steam Games in common:
+          {sharedGames.map(game => game.name).join(', ')}.
+        </div>
+      )}
     </StyledContainer>
   );
 }
