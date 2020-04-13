@@ -9,7 +9,7 @@ function UserEntry(props) {
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
-      <div>
+      <form>
         <StyledInput
           placeholder="SteamID"
           type="number"
@@ -17,7 +17,7 @@ function UserEntry(props) {
           required
         />
         <StyledButton type="button">Play</StyledButton>
-      </div>
+      </form>
     </StyledContainer>
   );
 }
