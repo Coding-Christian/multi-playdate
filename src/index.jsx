@@ -1,5 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import UserEntry from './components/userEntry';
+import App from './components/app';
 
-ReactDOM.render(<UserEntry />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
