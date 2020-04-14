@@ -7,12 +7,10 @@ import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
 
 function UserEntry(props) {
-  const [numPlayers, setNumPlayers] = useState(2);
   const [sharedGames, setSharedGames] = useState([]);
-  let initState = [];
+  const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
-  for (let i = 0; i < numPlayers; i++) {
-    initState.push('');
+  for (let i = 0; i < steamIds.length; i++) {
     inputs.push(
       <StyledInput
         key={i}
@@ -21,11 +19,11 @@ function UserEntry(props) {
         placeholder="SteamID"
         type="number"
         maxLength="17"
+        value={steamIds[i]}
         required
       />
     );
   }
-  const [steamIds, setSteamIds] = useState(initState);
   async function getSharedGames() {
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
@@ -45,7 +43,9 @@ function UserEntry(props) {
         <StyledSpan>Add or Remove Players:</StyledSpan>
         <StyledButton
           onClick={() =>
-            numPlayers < 8 ? setNumPlayers(num => num + 1) : null
+            steamIds.length < 8
+              ? setSteamIds(steamIds => [...steamIds, ''])
+              : null
           }
           type="button"
         >
@@ -53,7 +53,9 @@ function UserEntry(props) {
         </StyledButton>
         <StyledButton
           onClick={() =>
-            numPlayers > 2 ? setNumPlayers(num => num - 1) : null
+            steamIds.length > 2
+              ? setSteamIds(steamIds => steamIds.slice(0, -1))
+              : null
           }
           type="button"
         >
