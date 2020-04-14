@@ -6,7 +6,7 @@ import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
 
 function UserEntry(props) {
-  const numPlayers = 2;
+  const [numPlayers, setNumPlayers] = useState(2);
   const [sharedGames, setSharedGames] = useState([]);
   let initState = [];
   let inputs = [];
@@ -40,6 +40,21 @@ function UserEntry(props) {
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
+      <div>
+        <StyledP>Add or Remove Players</StyledP>
+        <StyledButton
+          onClick={() => setNumPlayers(num => num + 1)}
+          type="button"
+        >
+          +
+        </StyledButton>
+        <StyledButton
+          onClick={() => setNumPlayers(num => num - 1)}
+          type="button"
+        >
+          -
+        </StyledButton>
+      </div>
       <form>
         {inputs}
         <StyledButton onClick={getSharedGames} type="button">
