@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import StyledH1 from './emotion/styledH1';
 import StyledP from './emotion/styledP';
+import StyledSpan from './emotion/styledSpan';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
@@ -41,25 +42,31 @@ function UserEntry(props) {
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
       <div>
-        <StyledP>Add or Remove Players</StyledP>
+        <StyledSpan>Add or Remove Players:</StyledSpan>
         <StyledButton
-          onClick={() => setNumPlayers(num => num + 1)}
+          onClick={() =>
+            numPlayers < 8 ? setNumPlayers(num => num + 1) : null
+          }
           type="button"
         >
-          +
+          Add
         </StyledButton>
         <StyledButton
-          onClick={() => setNumPlayers(num => num - 1)}
+          onClick={() =>
+            numPlayers > 2 ? setNumPlayers(num => num - 1) : null
+          }
           type="button"
         >
-          -
+          Remove
         </StyledButton>
       </div>
       <form>
         {inputs}
-        <StyledButton onClick={getSharedGames} type="button">
-          Play
-        </StyledButton>
+        <div>
+          <StyledButton onClick={getSharedGames} type="button">
+            Get Shared Games
+          </StyledButton>
+        </div>
       </form>
       {sharedGames.length === 0 ? null : (
         <StyledP>
