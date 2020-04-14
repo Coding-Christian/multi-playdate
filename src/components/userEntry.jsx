@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
 import StyledH1 from './emotion/styledH1';
 import StyledP from './emotion/styledP';
+import StyledSpan from './emotion/styledSpan';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
 
 function UserEntry(props) {
-  const numPlayers = 2;
   const [sharedGames, setSharedGames] = useState([]);
-  let initState = [];
+  const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
-  for (let i = 0; i < numPlayers; i++) {
-    initState.push('');
+  for (let i = 0; i < steamIds.length; i++) {
     inputs.push(
       <StyledInput
         key={i}
@@ -20,17 +19,21 @@ function UserEntry(props) {
         placeholder="SteamID"
         type="number"
         maxLength="17"
+        value={steamIds[i]}
         required
       />
     );
   }
-  const [steamIds, setSteamIds] = useState(initState);
   async function getSharedGames() {
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
     const games = await response.json();
     setSharedGames(games);
+  }
+  function clearSteamIds() {
+    let newSteamIds = steamIds.map(steamId => '');
+    setSteamIds(newSteamIds);
   }
   function handleChange(e) {
     const newSteamIds = [...steamIds];
@@ -40,11 +43,39 @@ function UserEntry(props) {
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
+      <div>
+        <StyledSpan>Add or Remove Players:</StyledSpan>
+        <StyledButton
+          onClick={() =>
+            steamIds.length < 8
+              ? setSteamIds(steamIds => [...steamIds, ''])
+              : null
+          }
+          type="button"
+        >
+          Add
+        </StyledButton>
+        <StyledButton
+          onClick={() =>
+            steamIds.length > 2
+              ? setSteamIds(steamIds => steamIds.slice(0, -1))
+              : null
+          }
+          type="button"
+        >
+          Remove
+        </StyledButton>
+      </div>
       <form>
         {inputs}
-        <StyledButton onClick={getSharedGames} type="button">
-          Play
-        </StyledButton>
+        <div>
+          <StyledButton onClick={getSharedGames} type="button">
+            Get Shared Games
+          </StyledButton>
+          <StyledButton onClick={clearSteamIds} type="button">
+            Clear
+          </StyledButton>
+        </div>
       </form>
       {sharedGames.length === 0 ? null : (
         <StyledP>
