@@ -1,12 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import styled from '@emotion/styled';
+import App from './components/app';
 
-const TestDiv = styled.div`
-  color: pink;
-`;
-
-ReactDOM.render(
-  <TestDiv>Hello World</TestDiv>,
-  document.getElementById('root')
-);
+ReactDOM.render(<App />, document.getElementById('root'));
