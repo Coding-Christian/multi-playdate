@@ -31,6 +31,10 @@ function UserEntry(props) {
     const games = await response.json();
     setSharedGames(games);
   }
+  function clearSteamIds() {
+    let newSteamIds = steamIds.map(steamId => '');
+    setSteamIds(newSteamIds);
+  }
   function handleChange(e) {
     const newSteamIds = [...steamIds];
     newSteamIds[e.target.id] = e.target.value;
@@ -67,6 +71,9 @@ function UserEntry(props) {
         <div>
           <StyledButton onClick={getSharedGames} type="button">
             Get Shared Games
+          </StyledButton>
+          <StyledButton onClick={clearSteamIds} type="button">
+            Clear
           </StyledButton>
         </div>
       </form>
