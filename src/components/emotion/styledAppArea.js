@@ -7,6 +7,7 @@ const StyledAppArea = styled.div`
   flex-wrap: wrap;
   width: 100%;
   max-width: 876px;
+  font-family: "Raleway", sans-serif;
   margin: auto;
 `;
 

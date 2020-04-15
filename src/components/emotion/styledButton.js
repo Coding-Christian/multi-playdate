@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 
 const StyledButton = styled.button`
   height: 30px;
-  font-family: "Raleway", sans-serif;
   font-weight: bold;
   background-color: #f5f5f5;
   padding: 0px 12px;
