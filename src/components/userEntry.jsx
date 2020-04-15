@@ -36,7 +36,7 @@ function UserEntry({ getSharedGames }) {
       <StyledH1>MultiPlayDate</StyledH1>
       <div>
         <StyledSpan>Add or Remove Players:</StyledSpan>
-        <div>
+        <span>
           <StyledButton
             onClick={() =>
               steamIds.length < 8
@@ -57,7 +57,7 @@ function UserEntry({ getSharedGames }) {
           >
             Remove
           </StyledButton>
-        </div>
+        </span>
       </div>
       <form>
         {inputs}

@@ -23,10 +23,12 @@ function App(props) {
   return (
     <AppArea>
       <UserEntry getSharedGames={getSharedGames} />
-      <StyledContainer>
-        <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-        <StyledP>{sharedGames.map(game => game.name).join(', ')}</StyledP>
-      </StyledContainer>
+      {sharedGames.length ? (
+        <StyledContainer>
+          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
+          <StyledP>{sharedGames.map(game => game.name).join(', ')}</StyledP>
+        </StyledContainer>
+      ) : null}
     </AppArea>
   );
 }
