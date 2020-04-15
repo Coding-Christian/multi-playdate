@@ -9,9 +9,12 @@ function App(props) {
   const [sharedGames, setSharedGames] = useState([]);
   const AppArea = styled.div`
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
     flex-wrap: wrap;
     width: 100%;
+    max-width: 876px;
+    margin: auto;
   `;
   async function getSharedGames(steamIds) {
     const response = await fetch(
