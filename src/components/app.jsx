@@ -4,6 +4,7 @@ import StyledContainer from './emotion/styledContainer';
 import StyledH1 from './emotion/styledH1';
 import StyledP from './emotion/styledP';
 import UserEntry from './userEntry';
+import DetailCard from './detailCard';
 
 function App(props) {
   const [sharedGames, setSharedGames] = useState([]);
@@ -20,7 +21,17 @@ function App(props) {
       {sharedGames.length ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-          <StyledP>{sharedGames.map(game => game.name).join(', ')}</StyledP>
+          <StyledP>
+            {sharedGames.map(game => (
+              <DetailCard
+                key={game.steam_appid}
+                name={game.name}
+                score={game.metacritic ? game.metacritic.score : undefined}
+                genres={game.genres.map(genre => genre.description)}
+                description={game.short_description}
+              />
+            ))}
+          </StyledP>
         </StyledContainer>
       ) : null}
     </StyledAppArea>
