@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import StyledContainer from './emotion/styledContainer';
-import StyledP from './emotion/styledP';
 import StyledSpan from './emotion/styledSpan';
+
+const StyledP = styled.p`
+  margin: 10px;
+`;
 
 function DetailCard({ name, score, genres, description, background }) {
   const BackroundContainer = styled(StyledContainer)`
