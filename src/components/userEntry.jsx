@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
-import StyledH1 from './emotion/styledH1';
+import styled from '@emotion/styled';
 import StyledSpan from './emotion/styledSpan';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
+
+const StyledH1 = styled.h1`
+  margin: 10px;
+`;
 
 function UserEntry({ getSharedGames }) {
   const [steamIds, setSteamIds] = useState(['', '']);
