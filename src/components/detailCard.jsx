@@ -1,9 +1,12 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import StyledContainer from './emotion/styledContainer';
-import StyledSpan from './emotion/styledSpan';
 
 const StyledP = styled.p`
+  margin: 10px;
+`;
+
+const StyledSpan = styled.span`
   margin: 10px;
 `;
 
