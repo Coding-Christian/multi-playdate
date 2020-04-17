@@ -1,9 +1,13 @@
 import React, { useState } from 'react';
+import styled from '@emotion/styled';
 import StyledAppArea from './emotion/styledAppArea';
 import StyledContainer from './emotion/styledContainer';
-import StyledH1 from './emotion/styledH1';
 import UserEntry from './userEntry';
 import DetailCard from './detailCard';
+
+const StyledH1 = styled.h1`
+  margin: 10px;
+`;
 
 function App(props) {
   const [sharedGames, setSharedGames] = useState([]);
