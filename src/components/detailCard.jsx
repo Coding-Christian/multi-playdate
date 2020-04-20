@@ -10,6 +10,10 @@ const StyledSpan = styled.span`
   margin: 10px;
 `;
 
+const StyledA = styled.a`
+  margin: 10px;
+`;
+
 const BackroundContainer = styled(StyledContainer)`
   width: 100%;
   background-image: url(${props => props.background});
@@ -23,7 +27,7 @@ const BackroundContainer = styled(StyledContainer)`
   }
 `;
 
-function DetailCard({ name, score, genres, description, background }) {
+function DetailCard({ appId, name, score, genres, description, background }) {
   return (
     <BackroundContainer background={background}>
       <StyledP>
@@ -36,6 +40,9 @@ function DetailCard({ name, score, genres, description, background }) {
         </StyledSpan>
       </div>
       <StyledP>{description}</StyledP>
+      <StyledA href={`steam://advertise/${appId}`} target="_blank">
+        View in Steam (may not work with certain browsers)
+      </StyledA>
     </BackroundContainer>
   );
 }

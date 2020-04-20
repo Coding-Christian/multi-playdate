@@ -27,6 +27,7 @@ function App(props) {
           {sharedGames.map(game => (
             <DetailCard
               key={game.steam_appid}
+              appId={game.steam_appid}
               name={game.name}
               score={game.metacritic ? game.metacritic.score : undefined}
               genres={game.genres.map(genre => genre.description)}
