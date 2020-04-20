@@ -37,7 +37,7 @@ function App(props) {
   }
   return (
     <StyledAppArea>
-      <UserEntry getSharedGames={getSharedGames} />
+      <UserEntry getSharedGames={getSharedGames} maxPlayers={6} />
       {sharedGames.length ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
