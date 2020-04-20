@@ -15,10 +15,15 @@ const StyledAppArea = styled.div`
   flex-wrap: wrap;
   width: 100%;
   min-height: 100vh;
-  max-width: 876px;
   font-family: "Raleway", sans-serif;
   background-color: #fff;
   margin: auto;
+  @media (min-width: 916px) {
+    width: 916px;
+  }
+  @media (min-width: 1366px) {
+    width: 70%;
+  }
 `;
 
 function App(props) {
