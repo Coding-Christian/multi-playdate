@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StyledAppArea from './emotion/styledAppArea';
 import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
 import DetailCard from './detailCard';
 
 const StyledH1 = styled.h1`
   margin: 10px;
+`;
+
+const StyledAppArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 876px;
+  font-family: "Raleway", sans-serif;
+  margin: auto;
 `;
 
 function App(props) {
