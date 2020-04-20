@@ -14,8 +14,10 @@ const StyledAppArea = styled.div`
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
+  min-height: 100vh;
   max-width: 876px;
   font-family: "Raleway", sans-serif;
+  background-color: #fff;
   margin: auto;
 `;
 
