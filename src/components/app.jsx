@@ -1,12 +1,40 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StyledAppArea from './emotion/styledAppArea';
 import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
 import DetailCard from './detailCard';
 
 const StyledH1 = styled.h1`
   margin: 10px;
+`;
+
+const StyledAppArea = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 100vh;
+  font-family: "Raleway", sans-serif;
+  background-color: #fff;
+  margin: auto;
+  @media (min-width: 916px) {
+    width: 916px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-image: linear-gradient(
+      to bottom right,
+      #b827fc 0%,
+      #2c90fc 25%,
+      #b8fd33 50%,
+      #fec837 75%,
+      #fd1892 100%
+    );
+    border-image-slice: 1;
+  }
+  @media (min-width: 1366px) {
+    width: 70%;
+  }
 `;
 
 function App(props) {
@@ -20,13 +48,14 @@ function App(props) {
   }
   return (
     <StyledAppArea>
-      <UserEntry getSharedGames={getSharedGames} />
+      <UserEntry getSharedGames={getSharedGames} maxPlayers={6} />
       {sharedGames.length ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
           {sharedGames.map(game => (
             <DetailCard
               key={game.steam_appid}
+              appId={game.steam_appid}
               name={game.name}
               score={game.metacritic ? game.metacritic.score : undefined}
               genres={game.genres.map(genre => genre.description)}

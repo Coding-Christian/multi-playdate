@@ -12,7 +12,7 @@ const StyledSpan = styled.span`
   margin: 10px;
 `;
 
-function UserEntry({ getSharedGames }) {
+function UserEntry({ getSharedGames, maxPlayers }) {
   const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
   for (let i = 0; i < steamIds.length; i++) {
@@ -46,7 +46,7 @@ function UserEntry({ getSharedGames }) {
         <span>
           <StyledButton
             onClick={() =>
-              steamIds.length < 8
+              steamIds.length < maxPlayers
                 ? setSteamIds(steamIds => [...steamIds, ''])
                 : null
             }
