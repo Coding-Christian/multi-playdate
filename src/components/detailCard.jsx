@@ -10,21 +10,26 @@ const StyledSpan = styled.span`
   margin: 10px;
 `;
 
-function DetailCard({ name, score, genres, description, background }) {
-  const BackroundContainer = styled(StyledContainer)`
-    width: 100%;
-    background-image: url(${background});
-    background-size: cover;
-    background-position: center;
-    background-color: #bfbfbf;
-    background-blend-mode: screen;
-    &:after {
-      box-shadow: inset -5px -5px 7px rgba(94, 104, 121, 0.671),
-        inset 5px 5px 7px rgba(94, 104, 121, 0.671);
-    }
-  `;
+const StyledA = styled.a`
+  margin: 10px;
+`;
+
+const BackroundContainer = styled(StyledContainer)`
+  width: 100%;
+  background-image: url(${props => props.background});
+  background-size: cover;
+  background-position: center;
+  background-color: #bfbfbf;
+  background-blend-mode: screen;
+  &:after {
+    box-shadow: inset -5px -5px 7px rgba(94, 104, 121, 0.671),
+      inset 5px 5px 7px rgba(94, 104, 121, 0.671);
+  }
+`;
+
+function DetailCard({ appId, name, score, genres, description, background }) {
   return (
-    <BackroundContainer>
+    <BackroundContainer background={background}>
       <StyledP>
         <b>{name}</b>
       </StyledP>
@@ -35,6 +40,9 @@ function DetailCard({ name, score, genres, description, background }) {
         </StyledSpan>
       </div>
       <StyledP>{description}</StyledP>
+      <StyledA href={`steam://advertise/${appId}`} target="_blank">
+        View in Steam (may not work with certain browsers)
+      </StyledA>
     </BackroundContainer>
   );
 }
