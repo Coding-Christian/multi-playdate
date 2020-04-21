@@ -16,7 +16,7 @@ const StyledAppArea = styled.div`
   width: 100%;
   min-height: 100vh;
   font-family: "Raleway", sans-serif;
-  background-color: #fff;
+  background-image: url("img/peripherals.png");
   margin: auto;
   @media (min-width: 916px) {
     width: 916px;
@@ -58,7 +58,9 @@ function App(props) {
               appId={game.steam_appid}
               name={game.name}
               score={game.metacritic ? game.metacritic.score : undefined}
-              genres={game.genres.map(genre => genre.description)}
+              genres={
+                game.genres ? game.genres.map(genre => genre.description) : []
+              }
               description={game.short_description}
               background={game.header_image}
             />
