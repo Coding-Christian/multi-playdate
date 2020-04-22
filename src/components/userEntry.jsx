@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
@@ -8,11 +9,77 @@ const StyledH1 = styled.h1`
   margin: 10px;
 `;
 
-const StyledSpan = styled.span`
-  margin: 10px;
+const InlineDiv = styled.div`
+  display: inline-block;
 `;
 
-function UserEntry({ getSharedGames, maxPlayers }) {
+const SpacedDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+const loading1 = keyframes`
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+`;
+
+const loading3 = keyframes`
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+`;
+
+const loading2 = keyframes`
+  0% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(24px, 0);
+  }
+`;
+
+const Loader = styled.div`
+  display: inline-block;
+  visibility: ${props => props.visibility};
+  position: relative;
+  height: 30px;
+  width: 80px;
+  & div {
+    position: absolute;
+    top: 10px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #000;
+  }
+  & div:nth-child(1) {
+    left: 8px;
+    animation: ${loading1} 0.5s infinite;
+  }
+  & div:nth-child(2) {
+    left: 8px;
+    animation: ${loading2} 0.5s infinite;
+  }
+  & div:nth-child(3) {
+    left: 32px;
+    animation: ${loading2} 0.5s infinite;
+  }
+  & div:nth-child(4) {
+    left: 56px;
+    animation: ${loading3} 0.5s infinite;
+  }
+`;
+
+function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
   const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
   for (let i = 0; i < steamIds.length; i++) {
@@ -42,8 +109,8 @@ function UserEntry({ getSharedGames, maxPlayers }) {
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
       <div>
-        <StyledSpan>Add or Remove Players:</StyledSpan>
-        <span>
+        Add or Remove Players:
+        <InlineDiv>
           <StyledButton
             onClick={() =>
               steamIds.length < maxPlayers
@@ -64,18 +131,29 @@ function UserEntry({ getSharedGames, maxPlayers }) {
           >
             Remove
           </StyledButton>
-        </span>
+        </InlineDiv>
       </div>
       <form>
         {inputs}
-        <div>
-          <StyledButton onClick={() => getSharedGames(steamIds)} type="button">
-            Get Shared Games
-          </StyledButton>
-          <StyledButton onClick={clearSteamIds} type="button">
-            Clear
-          </StyledButton>
-        </div>
+        <SpacedDiv>
+          <InlineDiv>
+            <StyledButton
+              onClick={() => getSharedGames(steamIds)}
+              type="button"
+            >
+              Get Shared Games
+            </StyledButton>
+            <StyledButton onClick={clearSteamIds} type="button">
+              Clear
+            </StyledButton>
+          </InlineDiv>
+          <Loader visibility={isLoading ? 'visible' : 'hidden'}>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Loader>
+        </SpacedDiv>
       </form>
     </StyledContainer>
   );
