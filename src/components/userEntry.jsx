@@ -50,7 +50,6 @@ const loading2 = keyframes`
 const Loader = styled.div`
   display: inline-block;
   position: relative;
-  vertical-align: middle;
   height: 30px;
   width: 80px;
   & div {
