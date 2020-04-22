@@ -5,7 +5,7 @@
   "main": "index.html",
   "scripts": {
     "dev": "webpack-dev-server",
-    "go": "cd ./server && go build ./main.go ./set.go ./steamGameList.go && cd ../ && ./server/main",
+    "go": "cd ./server && go build ./main.go ./set.go && cd ../ && ./server/main",
     "build": "webpack --mode=production"
   },
   "husky": {
