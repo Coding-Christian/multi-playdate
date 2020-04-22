@@ -5,6 +5,7 @@ import UserEntry from './userEntry';
 import DetailCard from './detailCard';
 
 const StyledH1 = styled.h1`
+  text-align: center;
   margin: 10px;
 `;
 
@@ -16,10 +17,12 @@ const StyledAppArea = styled.div`
   width: 100%;
   min-height: 100vh;
   font-family: "Raleway", sans-serif;
+  text-align: center;
   background-image: url("img/peripherals.png");
   margin: auto;
-  @media (min-width: 916px) {
+  @media (min-width: 926px) {
     width: 916px;
+    text-align: left;
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-image: linear-gradient(
@@ -39,16 +42,23 @@ const StyledAppArea = styled.div`
 
 function App(props) {
   const [sharedGames, setSharedGames] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   async function getSharedGames(steamIds) {
+    setIsLoading(true);
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
     const games = await response.json();
+    setIsLoading(false);
     setSharedGames(games);
   }
   return (
     <StyledAppArea>
-      <UserEntry getSharedGames={getSharedGames} maxPlayers={6} />
+      <UserEntry
+        getSharedGames={getSharedGames}
+        maxPlayers={6}
+        isLoading={isLoading}
+      />
       {sharedGames.length ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>

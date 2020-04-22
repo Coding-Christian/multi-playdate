@@ -114,19 +114,19 @@ func getSharedGames(w http.ResponseWriter, r *http.Request) {
 }
 
 func getUserFriends(w http.ResponseWriter, r *http.Request) {
-	userIDParameter, ok := r.URL.Query()["userid"]
+	steamidParameter, ok := r.URL.Query()["steamid"]
 	if !ok {
 		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte("userid query parameter missing or malformed"))
+		w.Write([]byte("steamid query parameter missing or malformed"))
 		return
 	}
-	userID := userIDParameter[0]
-	if userID == "" {
+	steamid := steamidParameter[0]
+	if steamid == "" {
 		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte("userid query parameter missing or malformed"))
+		w.Write([]byte("steamid query parameter missing or malformed"))
 		return
 	}
-	friends, err := steam.GetFriendsForPlayer(userID)
+	friends, err := steam.GetFriendsForPlayer(steamid)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("error getting friends"))
