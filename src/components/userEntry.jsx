@@ -49,6 +49,7 @@ const loading2 = keyframes`
 
 const Loader = styled.div`
   display: inline-block;
+  visibility: ${props => props.visibility};
   position: relative;
   height: 30px;
   width: 80px;
@@ -78,7 +79,7 @@ const Loader = styled.div`
   }
 `;
 
-function UserEntry({ getSharedGames, maxPlayers }) {
+function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
   const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
   for (let i = 0; i < steamIds.length; i++) {
@@ -146,7 +147,7 @@ function UserEntry({ getSharedGames, maxPlayers }) {
               Clear
             </StyledButton>
           </InlineDiv>
-          <Loader>
+          <Loader visibility={isLoading ? 'visible' : 'hidden'}>
             <div></div>
             <div></div>
             <div></div>

@@ -42,16 +42,23 @@ const StyledAppArea = styled.div`
 
 function App(props) {
   const [sharedGames, setSharedGames] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   async function getSharedGames(steamIds) {
+    setIsLoading(true);
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
     const games = await response.json();
+    setIsLoading(false);
     setSharedGames(games);
   }
   return (
     <StyledAppArea>
-      <UserEntry getSharedGames={getSharedGames} maxPlayers={6} />
+      <UserEntry
+        getSharedGames={getSharedGames}
+        maxPlayers={6}
+        isLoading={isLoading}
+      />
       {sharedGames.length ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
