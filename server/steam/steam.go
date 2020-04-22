@@ -24,7 +24,7 @@ func GetGamesForPlayer(ID string) ([]Game, error) {
 	}
 	steamgames, err := unmarshalSteamGameListResponse(body)
 	if err != nil {
-		return nil, errors.New("Error parsing Request")
+		return nil, errors.New("Error parsing Request for getgames")
 	}
 
 	return steamgames.GameList.Games, nil

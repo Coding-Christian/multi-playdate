@@ -79,7 +79,7 @@ func getGamesForAllPlayers(IDs []string) ([]steam.GameInfo, error) {
 
 	gameInfo, err := getDetailsForGames(sharedGames)
 	if err != nil {
-		return nil, errors.New("Error parsing Request")
+		return nil, errors.New("Error parsing Request for gameinfo")
 	}
 	return gameInfo, nil
 }
@@ -103,7 +103,7 @@ func getSharedGames(w http.ResponseWriter, r *http.Request) {
 
 	allGames, err := getGamesForAllPlayers(steamIDsParsed)
 	if err != nil {
-		log.Fatalln(err)
+		log.Println(err)
 	}
 	multiplayerGames := filterByMultiplayer(allGames)
 
@@ -144,5 +144,5 @@ func main() {
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/shared/games", getSharedGames).Methods(http.MethodGet)
 	api.HandleFunc("/friends/", getUserFriends).Methods(http.MethodGet)
-	log.Fatal(http.ListenAndServe(":8000", handlers.RecoveryHandler()(router)))
+	log.Fatal(http.ListenAndServe(":8000", handlers.RecoveryHandler(handlers.PrintRecoveryStack(true))(router)))
 }
