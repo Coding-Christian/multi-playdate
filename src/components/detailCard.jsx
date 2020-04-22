@@ -15,7 +15,7 @@ const StyledA = styled.a`
 `;
 
 const BackroundContainer = styled(StyledContainer)`
-  width: 100%;
+  width: 90%;
   background-image: url(${props => props.background});
   background-size: cover;
   background-position: center;
