@@ -12,6 +12,10 @@ const StyledSpan = styled.span`
   margin: 10px;
 `;
 
+const InlineDiv = styled.div`
+  display: inline-block;
+`;
+
 function UserEntry({ getSharedGames, maxPlayers }) {
   const [steamIds, setSteamIds] = useState(['', '']);
   let inputs = [];
@@ -43,7 +47,7 @@ function UserEntry({ getSharedGames, maxPlayers }) {
       <StyledH1>MultiPlayDate</StyledH1>
       <div>
         <StyledSpan>Add or Remove Players:</StyledSpan>
-        <span>
+        <InlineDiv>
           <StyledButton
             onClick={() =>
               steamIds.length < maxPlayers
@@ -64,7 +68,7 @@ function UserEntry({ getSharedGames, maxPlayers }) {
           >
             Remove
           </StyledButton>
-        </span>
+        </InlineDiv>
       </div>
       <form>
         {inputs}
