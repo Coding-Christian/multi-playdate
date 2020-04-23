@@ -64,6 +64,7 @@ function App(props) {
     setSharedGames(games);
   }
   function reset() {
+    setView('initial');
     setSharedGames([]);
     setFriends([]);
   }
