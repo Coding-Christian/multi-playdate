@@ -60,9 +60,14 @@ function App(props) {
     setIsLoading(false);
     setSharedGames(games);
   }
+  function reset() {
+    setSharedGames([]);
+    setFriends([]);
+  }
   return (
     <StyledAppArea>
       <UserEntry
+        reset={reset}
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}

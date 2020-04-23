@@ -75,12 +75,13 @@ const Loader = styled.div`
   }
 `;
 
-function UserEntry({ friends, getFriends, getSharedGames, isLoading }) {
+function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
   const [userId, setUserId] = useState('');
   const [friendIds, setFriendIds] = useState([]);
   function resetForm() {
     setUserId('');
     setFriendIds([]);
+    reset();
   }
   function handleChange(e) {
     if (/^\d{0,17}$/.test(e.target.value)) {
