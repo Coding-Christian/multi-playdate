@@ -5,6 +5,8 @@ import StyledCard from './emotion/styledCard';
 const StyledImg = styled.img`
   height: 48px;
   width: 48px;
+  box-sizing: border-box;
+  border: ${props => (props.checked ? '4px solid #4faf5f' : 'none')};
   border-radius: 4px;
   margin: 5px;
 `;
@@ -17,25 +19,35 @@ const StyledP = styled.p`
   margin: 10px;
 `;
 
+const GrowDiv = styled.div`
+  flex-grow: 1;
+  width: 80%;
+`;
+
 const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px;
 `;
 
-const WideDiv = styled.div`
-  width: 100%;
-`;
-
-function FriendCard({ name, realName, status, profileUrl }) {
+function FriendCard({
+  steamId,
+  name,
+  realName,
+  status,
+  profileUrl,
+  checked,
+  handleClick
+}) {
   return (
     <StyledCard>
-      <input type="checkbox" />
       <StyledImg
         src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2c/2c094f9800e47f09714dce598b4576c5b3ddc0b5_medium.jpg"
         alt={name}
+        onClick={() => handleClick(steamId, checked)}
+        checked={checked}
       />
-      <WideDiv>
+      <GrowDiv>
         <StyledP>
           <b>{name}</b>
           {realName ? ` (${realName})` : ''}
@@ -46,7 +58,7 @@ function FriendCard({ name, realName, status, profileUrl }) {
             {'Profile >>'}
           </StyledA>
         </FlexDiv>
-      </WideDiv>
+      </GrowDiv>
     </StyledCard>
   );
 }

@@ -88,6 +88,13 @@ function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
       setUserId(e.target.value);
     }
   }
+  function handleClick(steamId, checked) {
+    if (checked) {
+      setFriendIds(friendIds.filter(id => id !== steamId));
+    } else if (friendIds.length < 5) {
+      setFriendIds([...friendIds, steamId]);
+    }
+  }
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
@@ -126,10 +133,13 @@ function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
       {friends.map(friend => (
         <FriendCard
           key={friend.steamid}
+          steamId={friend.steamid}
           name={friend.personaname}
           realName={friend.realname}
           status={1}
-          profileUrl="https://google.com"
+          profileUrl="https://steamcommunity.com/id/DarthJarJarTheWise"
+          handleClick={handleClick}
+          checked={friendIds.includes(friend.steamid)}
         />
       ))}
     </StyledContainer>
