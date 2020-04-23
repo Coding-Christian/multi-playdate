@@ -9,10 +9,6 @@ const StyledH1 = styled.h1`
   margin: 10px;
 `;
 
-const InlineDiv = styled.div`
-  display: inline-block;
-`;
-
 const SpacedDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -48,8 +44,7 @@ const loading2 = keyframes`
 `;
 
 const Loader = styled.div`
-  display: inline-block;
-  visibility: ${props => props.visibility};
+  display: ${props => props.display};
   position: relative;
   height: 30px;
   width: 80px;
@@ -80,81 +75,52 @@ const Loader = styled.div`
 `;
 
 function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
-  const [steamIds, setSteamIds] = useState(['', '']);
-  let inputs = [];
-  for (let i = 0; i < steamIds.length; i++) {
-    inputs.push(
-      <StyledInput
-        key={i}
-        id={i}
-        onChange={handleChange}
-        placeholder="SteamID"
-        type="number"
-        maxLength="17"
-        value={steamIds[i]}
-        required
-      />
-    );
-  }
-  function clearSteamIds() {
-    let newSteamIds = steamIds.map(steamId => '');
-    setSteamIds(newSteamIds);
+  const [userId, setUserId] = useState('');
+  const [friendIds, setFriendIds] = useState([]);
+  function resetForm() {
+    setUserId('');
+    setFriendIds([]);
   }
   function handleChange(e) {
-    const newSteamIds = [...steamIds];
-    newSteamIds[e.target.id] = e.target.value;
-    setSteamIds(newSteamIds);
+    if (/^\d{0,17}$/.test(e.target.value)) {
+      setUserId(e.target.value);
+    }
   }
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
-      <div>
-        Add or Remove Players:
-        <InlineDiv>
-          <StyledButton
-            onClick={() =>
-              steamIds.length < maxPlayers
-                ? setSteamIds(steamIds => [...steamIds, ''])
-                : null
-            }
-            type="button"
-          >
-            Add
-          </StyledButton>
-          <StyledButton
-            onClick={() =>
-              steamIds.length > 2
-                ? setSteamIds(steamIds => steamIds.slice(0, -1))
-                : null
-            }
-            type="button"
-          >
-            Remove
-          </StyledButton>
-        </InlineDiv>
-      </div>
       <form>
-        {inputs}
         <SpacedDiv>
-          <InlineDiv>
-            <StyledButton
-              onClick={() => getSharedGames(steamIds)}
-              type="button"
-            >
-              Get Shared Games
-            </StyledButton>
-            <StyledButton onClick={clearSteamIds} type="button">
-              Clear
-            </StyledButton>
-          </InlineDiv>
-          <Loader visibility={isLoading ? 'visible' : 'hidden'}>
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-          </Loader>
+          <StyledInput
+            onChange={handleChange}
+            placeholder="SteamID"
+            type="text"
+            maxLength="17"
+            value={userId}
+            required
+          />
+          <StyledButton onClick={resetForm} type="button">
+            Reset
+          </StyledButton>
+        </SpacedDiv>
+        <SpacedDiv>
+          <StyledButton onClick={() => null} type="button">
+            Find Friends
+          </StyledButton>
+          <StyledButton
+            onClick={() => getSharedGames([userId, ...friendIds])}
+            type="button"
+          >
+            Get Shared Games
+          </StyledButton>
         </SpacedDiv>
       </form>
+      <Loader display={isLoading ? 'inline-block' : 'none'}>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </Loader>
     </StyledContainer>
   );
 }
