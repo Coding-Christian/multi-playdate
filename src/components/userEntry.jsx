@@ -98,6 +98,7 @@ function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
+      <p>Add up to 5 friends to compare games</p>
       <form>
         <SpacedDiv>
           <StyledInput
@@ -106,6 +107,7 @@ function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
             type="text"
             maxLength="17"
             value={userId}
+            disabled={friends.length || isLoading ? 'disabled' : ''}
             required
           />
           <StyledButton onClick={resetForm} type="button">
