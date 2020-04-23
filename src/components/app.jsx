@@ -41,11 +41,13 @@ const StyledAppArea = styled.div`
 `;
 
 function App(props) {
+  const [view, setView] = useState('initial');
   const [friends, setFriends] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   async function getFriends(steamId) {
     setIsLoading(true);
+    setView('friends');
     const response = await fetch(`/api/friends?steamid=${steamId}`);
     const users = await response.json();
     setIsLoading(false);
@@ -53,6 +55,7 @@ function App(props) {
   }
   async function getSharedGames(steamIds) {
     setIsLoading(true);
+    setView('games');
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
@@ -71,9 +74,9 @@ function App(props) {
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
-        friends={friends}
+        friends={view === 'friends' && !isLoading ? friends : []}
       />
-      {sharedGames.length ? (
+      {view === 'games' && !isLoading ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
           {sharedGames.map(game => (
