@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
-import DetailCard from './detailCard';
+import GameCard from './gameCard';
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -41,10 +41,21 @@ const StyledAppArea = styled.div`
 `;
 
 function App(props) {
+  const [view, setView] = useState('initial');
+  const [friends, setFriends] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  async function getFriends(steamId) {
+    setIsLoading(true);
+    setView('friends');
+    const response = await fetch(`/api/friends?steamid=${steamId}`);
+    const users = await response.json();
+    setIsLoading(false);
+    setFriends(users);
+  }
   async function getSharedGames(steamIds) {
     setIsLoading(true);
+    setView('games');
     const response = await fetch(
       `/api/shared/games?steamids=${steamIds.join(',')}`
     );
@@ -52,18 +63,24 @@ function App(props) {
     setIsLoading(false);
     setSharedGames(games);
   }
+  function reset() {
+    setSharedGames([]);
+    setFriends([]);
+  }
   return (
     <StyledAppArea>
       <UserEntry
+        reset={reset}
+        getFriends={getFriends}
         getSharedGames={getSharedGames}
-        maxPlayers={6}
         isLoading={isLoading}
+        friends={view === 'friends' && !isLoading ? friends : []}
       />
-      {sharedGames.length ? (
+      {view === 'games' && !isLoading ? (
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
           {sharedGames.map(game => (
-            <DetailCard
+            <GameCard
               key={game.steam_appid}
               appId={game.steam_appid}
               name={game.name}

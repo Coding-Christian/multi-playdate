@@ -143,6 +143,6 @@ func main() {
 
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/shared/games", getSharedGames).Methods(http.MethodGet)
-	api.HandleFunc("/friends/", getUserFriends).Methods(http.MethodGet)
+	api.HandleFunc("/friends", getUserFriends).Methods(http.MethodGet)
 	log.Fatal(http.ListenAndServe(":8000", handlers.RecoveryHandler(handlers.PrintRecoveryStack(true))(router)))
 }
