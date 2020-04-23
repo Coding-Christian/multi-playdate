@@ -17,10 +17,14 @@ const StyledP = styled.p`
   margin: 10px;
 `;
 
-const StyledDiv = styled.div`
+const FlexDiv = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 10px;
+`;
+
+const WideDiv = styled.div`
+  width: 100%;
 `;
 
 function FriendCard({ name, realName, status, profileUrl }) {
@@ -31,18 +35,18 @@ function FriendCard({ name, realName, status, profileUrl }) {
         src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2c/2c094f9800e47f09714dce598b4576c5b3ddc0b5_medium.jpg"
         alt={name}
       />
-      <div>
+      <WideDiv>
         <StyledP>
           <b>{name}</b>
-          {realName.length ? ` (${realName})` : ''}
+          {realName ? ` (${realName})` : ''}
         </StyledP>
-        <StyledDiv>
+        <FlexDiv>
           <span>{status === 1 ? 'Online' : 'Offline'}</span>
           <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
             {'Profile >>'}
           </StyledA>
-        </StyledDiv>
-      </div>
+        </FlexDiv>
+      </WideDiv>
     </StyledCard>
   );
 }

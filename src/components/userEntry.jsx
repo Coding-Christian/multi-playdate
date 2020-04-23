@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
+import FriendCard from './friendCard';
 
 const StyledH1 = styled.h1`
   margin: 10px;
@@ -74,7 +75,7 @@ const Loader = styled.div`
   }
 `;
 
-function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
+function UserEntry({ friends, getFriends, getSharedGames, isLoading }) {
   const [userId, setUserId] = useState('');
   const [friendIds, setFriendIds] = useState([]);
   function resetForm() {
@@ -104,7 +105,7 @@ function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
           </StyledButton>
         </SpacedDiv>
         <SpacedDiv>
-          <StyledButton onClick={() => null} type="button">
+          <StyledButton onClick={() => getFriends(userId)} type="button">
             Find Friends
           </StyledButton>
           <StyledButton
@@ -121,6 +122,15 @@ function UserEntry({ getSharedGames, maxPlayers, isLoading }) {
         <div></div>
         <div></div>
       </Loader>
+      {friends.map(friend => (
+        <FriendCard
+          key={friend.steamid}
+          name={friend.personaname}
+          realName={friend.realname}
+          status={1}
+          profileUrl="https://google.com"
+        />
+      ))}
     </StyledContainer>
   );
 }

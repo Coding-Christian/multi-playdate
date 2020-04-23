@@ -41,8 +41,16 @@ const StyledAppArea = styled.div`
 `;
 
 function App(props) {
+  const [friends, setFriends] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  async function getFriends(steamId) {
+    setIsLoading(true);
+    const response = await fetch(`/api/friends?steamid=${steamId}`);
+    const users = await response.json();
+    setIsLoading(false);
+    setFriends(users);
+  }
   async function getSharedGames(steamIds) {
     setIsLoading(true);
     const response = await fetch(
@@ -55,9 +63,10 @@ function App(props) {
   return (
     <StyledAppArea>
       <UserEntry
+        getFriends={getFriends}
         getSharedGames={getSharedGames}
-        maxPlayers={6}
         isLoading={isLoading}
+        friends={friends}
       />
       {sharedGames.length ? (
         <StyledContainer>

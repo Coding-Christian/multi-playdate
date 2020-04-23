@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 
 const StyledCard = styled.div`
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  width: 90%;
   background-color: #f5f5f5;
   padding: 10px;
   border-radius: 8px;
