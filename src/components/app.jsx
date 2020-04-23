@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
-import DetailCard from './detailCard';
+import GameCard from './gameCard';
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -63,7 +63,7 @@ function App(props) {
         <StyledContainer>
           <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
           {sharedGames.map(game => (
-            <DetailCard
+            <GameCard
               key={game.steam_appid}
               appId={game.steam_appid}
               name={game.name}
