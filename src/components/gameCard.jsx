@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import StyledContainer from './emotion/styledContainer';
+import StyledCard from './emotion/styledCard';
 
 const StyledP = styled.p`
   margin: 10px;
@@ -14,22 +14,22 @@ const StyledA = styled.a`
   margin: 10px;
 `;
 
-const BackroundContainer = styled(StyledContainer)`
+const BackroundCard = styled(StyledCard)`
   width: 90%;
   background-image: url(${props => props.background});
   background-size: cover;
   background-position: center;
   background-color: #bfbfbf;
   background-blend-mode: screen;
-  &:after {
-    box-shadow: inset -5px -5px 7px rgba(94, 104, 121, 0.671),
-      inset 5px 5px 7px rgba(94, 104, 121, 0.671);
+  transition: all 0.1s ease-in-out;
+  &:hover {
+    transform: scale(1.01);
   }
 `;
 
-function DetailCard({ appId, name, score, genres, description, background }) {
+function GameCard({ appId, name, score, genres, description, background }) {
   return (
-    <BackroundContainer background={background}>
+    <BackroundCard background={background}>
       <StyledP>
         <b>{name}</b>
       </StyledP>
@@ -43,8 +43,8 @@ function DetailCard({ appId, name, score, genres, description, background }) {
       <StyledA href={`steam://advertise/${appId}`} target="_blank">
         View in Steam (may not work with certain browsers)
       </StyledA>
-    </BackroundContainer>
+    </BackroundCard>
   );
 }
 
-export default DetailCard;
+export default GameCard;

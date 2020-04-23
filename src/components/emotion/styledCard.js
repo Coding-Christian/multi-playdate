@@ -1,6 +1,10 @@
 import styled from '@emotion/styled';
 
 const StyledCard = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
   background-color: #f5f5f5;
   padding: 0px 12px;
   border: none;
