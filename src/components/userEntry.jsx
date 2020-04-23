@@ -17,6 +17,11 @@ const SpacedDiv = styled.div`
   align-items: center;
 `;
 
+const ScrollDiv = styled.div`
+  max-height: 250px;
+  overflow-y: scroll;
+`;
+
 const loading1 = keyframes`
   0% {
     transform: scale(0);
@@ -132,18 +137,23 @@ function UserEntry({ friends, reset, getFriends, getSharedGames, isLoading }) {
         <div></div>
         <div></div>
       </Loader>
-      {friends.map(friend => (
-        <FriendCard
-          key={friend.steamid}
-          steamId={friend.steamid}
-          name={friend.personaname}
-          realName={friend.realname}
-          status={1}
-          profileUrl="https://steamcommunity.com/id/DarthJarJarTheWise"
-          handleClick={handleClick}
-          checked={friendIds.includes(friend.steamid)}
-        />
-      ))}
+      {friends.length ? (
+        <ScrollDiv>
+          {friends.map(friend => (
+            <FriendCard
+              key={friend.steamid}
+              steamId={friend.steamid}
+              name={friend.personaname}
+              realName={friend.realname}
+              avatar={friend.avatarmedium}
+              status={friend.personastate}
+              profileUrl={friend.profileurl}
+              handleClick={handleClick}
+              checked={friendIds.includes(friend.steamid)}
+            />
+          ))}
+        </ScrollDiv>
+      ) : null}
     </StyledContainer>
   );
 }

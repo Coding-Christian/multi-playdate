@@ -30,10 +30,21 @@ const FlexDiv = styled.div`
   margin: 10px;
 `;
 
+const statuses = [
+  'Offline',
+  'Online',
+  'Busy',
+  'Away',
+  'Snooze',
+  'Looking to Trade',
+  'Looking to Play'
+];
+
 function FriendCard({
   steamId,
   name,
   realName,
+  avatar,
   status,
   profileUrl,
   checked,
@@ -42,7 +53,7 @@ function FriendCard({
   return (
     <StyledCard>
       <StyledImg
-        src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/2c/2c094f9800e47f09714dce598b4576c5b3ddc0b5_medium.jpg"
+        src={avatar}
         alt={name}
         onClick={() => handleClick(steamId, checked)}
         checked={checked}
@@ -53,7 +64,7 @@ function FriendCard({
           {realName ? ` (${realName})` : ''}
         </StyledP>
         <FlexDiv>
-          <span>{status === 1 ? 'Online' : 'Offline'}</span>
+          <span>{statuses[status]}</span>
           <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
             {'Profile >>'}
           </StyledA>
