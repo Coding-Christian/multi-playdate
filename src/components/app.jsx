@@ -2,7 +2,83 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
+import FriendList from './friendList';
 import GameCard from './gameCard';
+
+function App(props) {
+  const [view, setView] = useState('initial');
+  const [isLoading, setIsLoading] = useState(false);
+  const [friends, setFriends] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [sharedGames, setSharedGames] = useState([]);
+  async function getFriends(steamId) {
+    setIsLoading(true);
+    setSelectedIds([steamId]);
+    setView('friends');
+    const response = await fetch(`/api/friends?steamid=${steamId}`);
+    const users = await response.json();
+    setIsLoading(false);
+    setFriends(users);
+  }
+  async function getSharedGames() {
+    if (selectedIds.length >= 2) {
+      setIsLoading(true);
+      setView('games');
+      const response = await fetch(
+        `/api/shared/games?steamids=${selectedIds.join(',')}`
+      );
+      const games = await response.json();
+      setIsLoading(false);
+      setSharedGames(games);
+    }
+  }
+  function handleFriendClick(steamId, checked) {
+    if (checked) {
+      setSelectedIds(selectedIds.filter(id => id !== steamId));
+    } else if (selectedIds.length < 6) {
+      setSelectedIds([...selectedIds, steamId]);
+    }
+  }
+  function reset() {
+    setView('initial');
+    setSharedGames([]);
+    setFriends([]);
+  }
+  return (
+    <StyledAppArea>
+      <UserEntry
+        reset={reset}
+        getFriends={getFriends}
+        getSharedGames={getSharedGames}
+        isLoading={isLoading}
+      />
+      {view === 'games' && !isLoading ? (
+        <StyledContainer>
+          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
+          {sharedGames.map(game => (
+            <GameCard
+              key={game.steam_appid}
+              appId={game.steam_appid}
+              name={game.name}
+              score={game.metacritic ? game.metacritic.score : undefined}
+              genres={
+                game.genres ? game.genres.map(genre => genre.description) : []
+              }
+              description={game.short_description}
+              background={game.header_image}
+            />
+          ))}
+        </StyledContainer>
+      ) : view === 'friends' && !isLoading ? (
+        <FriendList
+          friends={friends}
+          selectedIds={selectedIds}
+          handleFriendClick={handleFriendClick}
+        />
+      ) : null}
+    </StyledAppArea>
+  );
+}
 
 const StyledH1 = styled.h1`
   text-align: center;
@@ -39,63 +115,5 @@ const StyledAppArea = styled.div`
     width: 70%;
   }
 `;
-
-function App(props) {
-  const [view, setView] = useState('initial');
-  const [friends, setFriends] = useState([]);
-  const [sharedGames, setSharedGames] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  async function getFriends(steamId) {
-    setIsLoading(true);
-    setView('friends');
-    const response = await fetch(`/api/friends?steamid=${steamId}`);
-    const users = await response.json();
-    setIsLoading(false);
-    setFriends(users);
-  }
-  async function getSharedGames(steamIds) {
-    setIsLoading(true);
-    setView('games');
-    const response = await fetch(
-      `/api/shared/games?steamids=${steamIds.join(',')}`
-    );
-    const games = await response.json();
-    setIsLoading(false);
-    setSharedGames(games);
-  }
-  function reset() {
-    setSharedGames([]);
-    setFriends([]);
-  }
-  return (
-    <StyledAppArea>
-      <UserEntry
-        reset={reset}
-        getFriends={getFriends}
-        getSharedGames={getSharedGames}
-        isLoading={isLoading}
-        friends={view === 'friends' && !isLoading ? friends : []}
-      />
-      {view === 'games' && !isLoading ? (
-        <StyledContainer>
-          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-          {sharedGames.map(game => (
-            <GameCard
-              key={game.steam_appid}
-              appId={game.steam_appid}
-              name={game.name}
-              score={game.metacritic ? game.metacritic.score : undefined}
-              genres={
-                game.genres ? game.genres.map(genre => genre.description) : []
-              }
-              description={game.short_description}
-              background={game.header_image}
-            />
-          ))}
-        </StyledContainer>
-      ) : null}
-    </StyledAppArea>
-  );
-}
 
 export default App;
