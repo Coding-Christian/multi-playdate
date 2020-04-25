@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StyledContainer from './emotion/styledContainer';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
-import GameCard from './gameCard';
+import GameList from './gameList';
 
 function App() {
   const [view, setView] = useState('initial');
@@ -47,22 +46,7 @@ function App() {
         canGetGames={selectedIds.length > 1}
       />
       {view === 'games' && !isLoading ? (
-        <StyledContainer>
-          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-          {sharedGames.map(game => (
-            <GameCard
-              key={game.steam_appid}
-              appId={game.steam_appid}
-              name={game.name}
-              score={game.metacritic ? game.metacritic.score : undefined}
-              genres={
-                game.genres ? game.genres.map(genre => genre.description) : []
-              }
-              description={game.short_description}
-              background={game.header_image}
-            />
-          ))}
-        </StyledContainer>
+        <GameList sharedGames={sharedGames} />
       ) : view === 'friends' && !isLoading ? (
         <FriendList
           friends={friends}
@@ -73,11 +57,6 @@ function App() {
     </StyledAppArea>
   );
 }
-
-const StyledH1 = styled.h1`
-  text-align: center;
-  margin: 10px;
-`;
 
 const StyledAppArea = styled.div`
   display: flex;
