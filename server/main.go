@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	"log"
 	"net/http"
 	"strings"
@@ -53,14 +52,24 @@ func findCommonGames(allGames [][]steam.Game) []int {
 }
 
 func getDetailsForGames(appIDs []int) ([]steam.GameInfo, error) {
-	allGameInfo := make([]steam.GameInfo, 0, len(appIDs))
-	for i := range appIDs {
-		gameInfo, err := steam.GetDetailsForGame(appIDs[i])
-		if err != nil {
-			fmt.Println("error with" + string(appIDs[i]) + err.Error())
-			continue
-		}
-		allGameInfo = append(allGameInfo, *gameInfo)
+	allGameInfo := make([]steam.GameInfo, len(appIDs))
+
+	ch := make(chan int)
+	for i, appID := range appIDs {
+		i := i
+		go func(appID int, ch chan int, allGameInfo []steam.GameInfo) error {
+			var err error
+			defer func() { ch <- i }()
+			gameInfo, err := steam.GetDetailsForGame(appID)
+			if err != nil {
+				return err
+			}
+			allGameInfo[i] = *gameInfo
+			return nil
+		}(appID, ch, allGameInfo)
+	}
+	for range appIDs {
+		<-ch
 	}
 	return allGameInfo, nil
 }
