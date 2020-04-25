@@ -5,7 +5,7 @@ import UserEntry from './userEntry';
 import FriendList from './friendList';
 import GameCard from './gameCard';
 
-function App(props) {
+function App() {
   const [view, setView] = useState('initial');
   const [isLoading, setIsLoading] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -44,6 +44,7 @@ function App(props) {
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
+        canGetGames={selectedIds.length > 1}
       />
       {view === 'games' && !isLoading ? (
         <StyledContainer>

@@ -5,7 +5,13 @@ import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
 
-function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
+function UserEntry({
+  reset,
+  getFriends,
+  getSharedGames,
+  isLoading,
+  canGetGames
+}) {
   const [userId, setUserId] = useState('');
   function resetForm() {
     setUserId('');
@@ -23,7 +29,7 @@ function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
   return (
     <StyledContainer>
       <StyledH1>MultiPlayDate</StyledH1>
-      <p>Add up to 5 friends to compare games</p>
+      <p>Enter your SteamID to find your friends:</p>
       <form>
         <SpacedDiv>
           <StyledInput
@@ -54,7 +60,7 @@ function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
           <StyledButton
             onClick={() => handleSubmit()}
             type="button"
-            disabled={isLoading ? 'disabled' : ''}
+            disabled={isLoading || !canGetGames ? 'disabled' : ''}
           >
             Get Shared Games
           </StyledButton>
@@ -79,6 +85,12 @@ const SpacedDiv = styled.div`
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  & button,
+  input {
+    @media (max-width: 370px) {
+      width: 90%;
+    }
+  }
 `;
 
 const loading1 = keyframes`
