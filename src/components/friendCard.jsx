@@ -2,6 +2,50 @@ import React from 'react';
 import styled from '@emotion/styled';
 import StyledCard from './emotion/styledCard';
 
+const statuses = [
+  'Offline',
+  'Online',
+  'Busy',
+  'Away',
+  'Snooze',
+  'Looking to Trade',
+  'Looking to Play'
+];
+
+function FriendCard({
+  steamId,
+  name,
+  realName,
+  avatar,
+  status,
+  profileUrl,
+  checked,
+  handleFriendClick
+}) {
+  return (
+    <StyledCard>
+      <StyledImg
+        src={avatar}
+        alt={name}
+        onClick={() => handleFriendClick(steamId, checked)}
+        checked={checked}
+      />
+      <GrowDiv>
+        <StyledP>
+          <b>{name}</b>
+          {realName ? ` (${realName})` : ''}
+        </StyledP>
+        <FlexDiv>
+          <span>{statuses[status]}</span>
+          <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
+            {'Profile >>'}
+          </StyledA>
+        </FlexDiv>
+      </GrowDiv>
+    </StyledCard>
+  );
+}
+
 const StyledImg = styled.img`
   height: 48px;
   width: 48px;
@@ -29,49 +73,5 @@ const FlexDiv = styled.div`
   justify-content: space-between;
   margin: 10px;
 `;
-
-const statuses = [
-  'Offline',
-  'Online',
-  'Busy',
-  'Away',
-  'Snooze',
-  'Looking to Trade',
-  'Looking to Play'
-];
-
-function FriendCard({
-  steamId,
-  name,
-  realName,
-  avatar,
-  status,
-  profileUrl,
-  checked,
-  handleClick
-}) {
-  return (
-    <StyledCard>
-      <StyledImg
-        src={avatar}
-        alt={name}
-        onClick={() => handleClick(steamId, checked)}
-        checked={checked}
-      />
-      <GrowDiv>
-        <StyledP>
-          <b>{name}</b>
-          {realName ? ` (${realName})` : ''}
-        </StyledP>
-        <FlexDiv>
-          <span>{statuses[status]}</span>
-          <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
-            {'Profile >>'}
-          </StyledA>
-        </FlexDiv>
-      </GrowDiv>
-    </StyledCard>
-  );
-}
 
 export default FriendCard;
