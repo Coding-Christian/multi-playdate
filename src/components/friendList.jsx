@@ -1,5 +1,5 @@
 import React from 'react';
-import StyledContainer from './emotion/styledContainer';
+import styled from '@emotion/styled';
 import FriendCard from './friendCard';
 
 function FriendList({ friends, selectedIds, setSelectedIds }) {
@@ -11,7 +11,7 @@ function FriendList({ friends, selectedIds, setSelectedIds }) {
     }
   }
   return (
-    <StyledContainer>
+    <FlexRowDiv>
       {friends.map(friend => (
         <FriendCard
           key={friend.steamid}
@@ -25,8 +25,16 @@ function FriendList({ friends, selectedIds, setSelectedIds }) {
           checked={selectedIds.includes(friend.steamid)}
         />
       ))}
-    </StyledContainer>
+    </FlexRowDiv>
   );
 }
+
+const FlexRowDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+`;
 
 export default FriendList;

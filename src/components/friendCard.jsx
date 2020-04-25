@@ -23,7 +23,7 @@ function FriendCard({
   handleFriendClick
 }) {
   return (
-    <StyledCard>
+    <FixedCard>
       <StyledImg
         src={avatar}
         alt={name}
@@ -42,7 +42,7 @@ function FriendCard({
           </StyledA>
         </FlexDiv>
       </GrowDiv>
-    </StyledCard>
+    </FixedCard>
   );
 }
 
@@ -53,6 +53,10 @@ const StyledImg = styled.img`
   border: ${props => (props.checked ? '4px solid #4faf5f' : 'none')};
   border-radius: 4px;
   margin: 5px;
+`;
+
+const FixedCard = styled(StyledCard)`
+  max-width: 365px;
 `;
 
 const StyledA = styled.a`

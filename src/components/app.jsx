@@ -69,6 +69,9 @@ const StyledAppArea = styled.div`
   text-align: center;
   background-image: url("img/peripherals.png");
   margin: auto;
+  & button:disabled {
+    cursor: not-allowed;
+  }
   @media (min-width: 926px) {
     width: 916px;
     text-align: left;
