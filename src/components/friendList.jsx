@@ -2,7 +2,14 @@ import React from 'react';
 import StyledContainer from './emotion/styledContainer';
 import FriendCard from './friendCard';
 
-function FriendList({ friends, selectedIds, handleFriendClick }) {
+function FriendList({ friends, selectedIds, setSelectedIds }) {
+  function handleFriendClick(steamId, checked) {
+    if (checked) {
+      setSelectedIds(selectedIds.filter(id => id !== steamId));
+    } else if (selectedIds.length < 6) {
+      setSelectedIds([...selectedIds, steamId]);
+    }
+  }
   return (
     <StyledContainer>
       {friends.map(friend => (

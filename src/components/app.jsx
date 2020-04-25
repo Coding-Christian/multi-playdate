@@ -32,13 +32,6 @@ function App(props) {
       setSharedGames(games);
     }
   }
-  function handleFriendClick(steamId, checked) {
-    if (checked) {
-      setSelectedIds(selectedIds.filter(id => id !== steamId));
-    } else if (selectedIds.length < 6) {
-      setSelectedIds([...selectedIds, steamId]);
-    }
-  }
   function reset() {
     setView('initial');
     setSharedGames([]);
@@ -73,7 +66,7 @@ function App(props) {
         <FriendList
           friends={friends}
           selectedIds={selectedIds}
-          handleFriendClick={handleFriendClick}
+          setSelectedIds={setSelectedIds}
         />
       ) : null}
     </StyledAppArea>
