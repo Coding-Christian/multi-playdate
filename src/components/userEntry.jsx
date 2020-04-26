@@ -5,7 +5,13 @@ import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledContainer from './emotion/styledContainer';
 
-function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
+function UserEntry({
+  reset,
+  getFriends,
+  getSharedGames,
+  isLoading,
+  canGetGames
+}) {
   const [userId, setUserId] = useState('');
   function resetForm() {
     setUserId('');
@@ -22,8 +28,7 @@ function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
   }
   return (
     <StyledContainer>
-      <StyledH1>MultiPlayDate</StyledH1>
-      <p>Add up to 5 friends to compare games</p>
+      <p>Enter your SteamID to find your friends:</p>
       <form>
         <SpacedDiv>
           <StyledInput
@@ -54,7 +59,7 @@ function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
           <StyledButton
             onClick={() => handleSubmit()}
             type="button"
-            disabled={isLoading ? 'disabled' : ''}
+            disabled={isLoading || !canGetGames ? 'disabled' : ''}
           >
             Get Shared Games
           </StyledButton>
@@ -70,15 +75,17 @@ function UserEntry({ reset, getFriends, getSharedGames, isLoading }) {
   );
 }
 
-const StyledH1 = styled.h1`
-  margin: 10px;
-`;
-
 const SpacedDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
+  & button,
+  input {
+    @media (max-width: 370px) {
+      width: 90%;
+    }
+  }
 `;
 
 const loading1 = keyframes`
@@ -121,19 +128,19 @@ const Loader = styled.div`
     border-radius: 50%;
     background: #000;
   }
-  & div:nth-child(1) {
+  & div:nth-of-type(1) {
     left: 8px;
     animation: ${loading1} 0.5s infinite;
   }
-  & div:nth-child(2) {
+  & div:nth-of-type(2) {
     left: 8px;
     animation: ${loading2} 0.5s infinite;
   }
-  & div:nth-child(3) {
+  & div:nth-of-type(3) {
     left: 32px;
     animation: ${loading2} 0.5s infinite;
   }
-  & div:nth-child(4) {
+  & div:nth-of-type(4) {
     left: 56px;
     animation: ${loading3} 0.5s infinite;
   }
