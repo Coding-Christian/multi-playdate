@@ -28,7 +28,6 @@ function UserEntry({
   }
   return (
     <StyledContainer>
-      <StyledH1>MultiPlayDate</StyledH1>
       <p>Enter your SteamID to find your friends:</p>
       <form>
         <SpacedDiv>
@@ -75,10 +74,6 @@ function UserEntry({
     </StyledContainer>
   );
 }
-
-const StyledH1 = styled.h1`
-  margin: 10px;
-`;
 
 const SpacedDiv = styled.div`
   display: flex;
@@ -133,19 +128,19 @@ const Loader = styled.div`
     border-radius: 50%;
     background: #000;
   }
-  & div:nth-child(1) {
+  & div:nth-of-type(1) {
     left: 8px;
     animation: ${loading1} 0.5s infinite;
   }
-  & div:nth-child(2) {
+  & div:nth-of-type(2) {
     left: 8px;
     animation: ${loading2} 0.5s infinite;
   }
-  & div:nth-child(3) {
+  & div:nth-of-type(3) {
     left: 32px;
     animation: ${loading2} 0.5s infinite;
   }
-  & div:nth-child(4) {
+  & div:nth-of-type(4) {
     left: 56px;
     animation: ${loading3} 0.5s infinite;
   }

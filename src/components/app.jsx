@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import Header from './header';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
 import GameList from './gameList';
@@ -50,6 +51,7 @@ function App() {
   }
   return (
     <StyledAppArea>
+      <Header />
       <UserEntry
         reset={reset}
         getFriends={getFriends}
