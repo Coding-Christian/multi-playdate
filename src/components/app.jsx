@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StyledContainer from './emotion/styledContainer';
+import { keyframes } from '@emotion/core';
+import Header from './header';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
-import GameCard from './gameCard';
+import GameList from './gameList';
 
-function App(props) {
+function App() {
   const [view, setView] = useState('initial');
   const [isLoading, setIsLoading] = useState(false);
   const [friends, setFriends] = useState([]);
@@ -37,45 +38,40 @@ function App(props) {
     setSharedGames([]);
     setFriends([]);
   }
+  let viewElement;
+  if (view === 'games' && !isLoading) {
+    viewElement = <GameList sharedGames={sharedGames} />;
+  } else if (view === 'friends' && !isLoading) {
+    viewElement = (
+      <FriendList
+        friends={friends}
+        selectedIds={selectedIds}
+        setSelectedIds={setSelectedIds}
+      />
+    );
+  }
   return (
     <StyledAppArea>
+      <Header />
       <UserEntry
         reset={reset}
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
+        canGetGames={selectedIds.length > 1}
       />
-      {view === 'games' && !isLoading ? (
-        <StyledContainer>
-          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-          {sharedGames.map(game => (
-            <GameCard
-              key={game.steam_appid}
-              appId={game.steam_appid}
-              name={game.name}
-              score={game.metacritic ? game.metacritic.score : undefined}
-              genres={
-                game.genres ? game.genres.map(genre => genre.description) : []
-              }
-              description={game.short_description}
-              background={game.header_image}
-            />
-          ))}
-        </StyledContainer>
-      ) : view === 'friends' && !isLoading ? (
-        <FriendList
-          friends={friends}
-          selectedIds={selectedIds}
-          setSelectedIds={setSelectedIds}
-        />
-      ) : null}
+      {viewElement}
     </StyledAppArea>
   );
 }
 
-const StyledH1 = styled.h1`
-  text-align: center;
-  margin: 10px;
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 `;
 
 const StyledAppArea = styled.div`
@@ -89,6 +85,12 @@ const StyledAppArea = styled.div`
   text-align: center;
   background-image: url("img/peripherals.png");
   margin: auto;
+  & > * {
+    animation: ${fadeIn} ease 0.5s;
+  }
+  & button:disabled {
+    cursor: not-allowed;
+  }
   @media (min-width: 926px) {
     width: 916px;
     text-align: left;
