@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/core';
 import Header from './header';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
@@ -64,6 +65,15 @@ function App() {
   );
 }
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const StyledAppArea = styled.div`
   display: flex;
   flex-direction: column;
@@ -75,6 +85,9 @@ const StyledAppArea = styled.div`
   text-align: center;
   background-image: url("img/peripherals.png");
   margin: auto;
+  & > * {
+    animation: ${fadeIn} ease 0.5s;
+  }
   & button:disabled {
     cursor: not-allowed;
   }

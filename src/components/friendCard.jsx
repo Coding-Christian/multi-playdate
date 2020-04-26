@@ -57,6 +57,7 @@ const StyledImg = styled.img`
 
 const FixedCard = styled(StyledCard)`
   max-width: 365px;
+  text-align: left;
 `;
 
 const StyledA = styled.a`
