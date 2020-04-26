@@ -36,6 +36,18 @@ function App() {
     setSharedGames([]);
     setFriends([]);
   }
+  let viewElement;
+  if (view === 'games' && !isLoading) {
+    viewElement = <GameList sharedGames={sharedGames} />;
+  } else if (view === 'friends' && !isLoading) {
+    viewElement = (
+      <FriendList
+        friends={friends}
+        selectedIds={selectedIds}
+        setSelectedIds={setSelectedIds}
+      />
+    );
+  }
   return (
     <StyledAppArea>
       <UserEntry
@@ -45,15 +57,7 @@ function App() {
         isLoading={isLoading}
         canGetGames={selectedIds.length > 1}
       />
-      {view === 'games' && !isLoading ? (
-        <GameList sharedGames={sharedGames} />
-      ) : view === 'friends' && !isLoading ? (
-        <FriendList
-          friends={friends}
-          selectedIds={selectedIds}
-          setSelectedIds={setSelectedIds}
-        />
-      ) : null}
+      {viewElement}
     </StyledAppArea>
   );
 }
