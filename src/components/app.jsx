@@ -33,11 +33,11 @@ function App() {
       setSharedGames(games);
     }
   }
-  function reset() {
-    setView('initial');
-    setSharedGames([]);
-    setFriends([]);
-  }
+  // function reset() {
+  //   setView('initial');
+  //   setSharedGames([]);
+  //   setFriends([]);
+  // }
   let viewElement;
   if (view === 'games' && !isLoading) {
     viewElement = <GameList sharedGames={sharedGames} />;
@@ -54,7 +54,6 @@ function App() {
     <StyledAppArea>
       <Header />
       <UserEntry
-        reset={reset}
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
@@ -88,9 +87,6 @@ const StyledAppArea = styled.div`
   margin: auto;
   & > * {
     animation: ${fadeIn} ease 0.5s;
-  }
-  & button:disabled {
-    cursor: not-allowed;
   }
 `;
 

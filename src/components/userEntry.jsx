@@ -5,17 +5,10 @@ import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
 import StyledCard from './emotion/StyledCard';
 
-function UserEntry({
-  reset,
-  getFriends,
-  getSharedGames,
-  isLoading,
-  canGetGames
-}) {
+function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
   const [userId, setUserId] = useState('');
   function resetForm() {
     setUserId('');
-    reset();
   }
   function handleChange(e) {
     if (/^\d{0,17}$/.test(e.target.value)) {
@@ -45,32 +38,31 @@ function UserEntry({
             type="button"
             disabled={isLoading ? 'disabled' : ''}
           >
-            Reset
+            Clear
           </StyledButton>
         </SpacedDiv>
         <SpacedDiv>
-          <StyledButton
-            onClick={() => getFriends(userId)}
-            type="button"
-            disabled={isLoading ? 'disabled' : ''}
-          >
-            Find Friends
-          </StyledButton>
+          {isLoading ? (
+            <Loader>
+              <div></div>
+              <div></div>
+              <div></div>
+              <div></div>
+            </Loader>
+          ) : (
+            <StyledButton onClick={() => getFriends(userId)} type="button">
+              Find Friends
+            </StyledButton>
+          )}
           <StyledButton
             onClick={() => handleSubmit()}
             type="button"
             disabled={isLoading || !canGetGames ? 'disabled' : ''}
           >
-            Get Shared Games
+            Compare Games
           </StyledButton>
         </SpacedDiv>
       </form>
-      <Loader display={isLoading ? 'inline-block' : 'none'}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </Loader>
     </StyledCard>
   );
 }
@@ -78,11 +70,10 @@ function UserEntry({
 const SpacedDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  & button,
-  input {
-    @media (max-width: 370px) {
+  & > * {
+    @media (max-width: 372px) {
       width: 90%;
     }
   }
@@ -120,6 +111,7 @@ const Loader = styled.div`
   position: relative;
   height: 30px;
   width: 80px;
+  margin: auto;
   & div {
     position: absolute;
     top: 10px;
