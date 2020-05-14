@@ -81,7 +81,7 @@ const StyledAppArea = styled.div`
   flex-wrap: wrap;
   width: 100%;
   min-height: 100vh;
-  font-family: "Raleway", sans-serif;
+  font-family: "Fira Mono", monospace;
   text-align: center;
   background-image: url("img/peripherals.png");
   margin: auto;
