@@ -7,8 +7,9 @@ function Header(props) {
 
 const StyledH1 = styled.h1`
   width: 100%;
+  font-family: "Fira Mono", monospace;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.75);
+  color: #f5f5f5;
   padding: 15px;
   margin: 0;
   box-sizing: border-box;

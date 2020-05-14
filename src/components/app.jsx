@@ -78,36 +78,19 @@ const StyledAppArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  min-height: 100vh;
+  justify-content: center;
+  max-width: 640px;
+  height: 100vh;
   font-family: "Fira Mono", monospace;
   text-align: center;
-  background-image: url("img/peripherals.png");
+  box-sizing: border-box;
+  padding: 10px;
   margin: auto;
   & > * {
     animation: ${fadeIn} ease 0.5s;
   }
   & button:disabled {
     cursor: not-allowed;
-  }
-  @media (min-width: 926px) {
-    width: 916px;
-    text-align: left;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-image: linear-gradient(
-      to bottom right,
-      #b827fc 0%,
-      #2c90fc 25%,
-      #b8fd33 50%,
-      #fec837 75%,
-      #fd1892 100%
-    );
-    border-image-slice: 1;
-  }
-  @media (min-width: 1366px) {
-    width: 70%;
   }
 `;
 

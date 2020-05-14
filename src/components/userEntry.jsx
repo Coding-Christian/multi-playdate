@@ -3,7 +3,7 @@ import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
-import StyledContainer from './emotion/styledContainer';
+import StyledCard from './emotion/StyledCard';
 
 function UserEntry({
   reset,
@@ -27,7 +27,7 @@ function UserEntry({
     getSharedGames();
   }
   return (
-    <StyledContainer>
+    <StyledCard>
       <p>Enter your SteamID to find your friends:</p>
       <form>
         <SpacedDiv>
@@ -71,7 +71,7 @@ function UserEntry({
         <div></div>
         <div></div>
       </Loader>
-    </StyledContainer>
+    </StyledCard>
   );
 }
 

@@ -2,12 +2,11 @@ import styled from '@emotion/styled';
 
 const StyledButton = styled.button`
   height: 30px;
-  font-weight: bold;
+  font-family: "Fira Mono", monospace;
   background-color: #f5f5f5;
   padding: 0px 12px;
-  border: none;
-  border-radius: 8px;
-  box-shadow: 5px 5px 7px #d9d9d9, -5px -5px 7px #ffff;
+  border: 1px solid black;
+  border-radius: 5px;
   margin: 10px;
   &:focus {
     text-decoration: underline;
@@ -15,11 +14,11 @@ const StyledButton = styled.button`
   }
   &:hover {
     cursor: pointer;
-    background: linear-gradient(145deg, #e6e6e6, #fff);
-    box-shadow: 5px 5px 12px #d9d9d9, -5px -5px 12px #fff;
+    color: #f5f5f5;
+    background-color: #202020;
   }
   &:active {
-    box-shadow: inset 5px 5px 10px #e0e0e0, inset -5px -5px 10px #fff;
+    background-color: #112266;
   }
 `;
 
