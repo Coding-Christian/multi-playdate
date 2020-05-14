@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
-import StyledCard from './emotion/StyledCard';
+import StyledCard from './emotion/styledCard';
+import Loader from './loader';
 
 function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
   const [userId, setUserId] = useState('');
@@ -43,12 +43,7 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
         </SpacedDiv>
         <SpacedDiv>
           {isLoading ? (
-            <Loader>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </Loader>
+            <Loader />
           ) : (
             <StyledButton onClick={() => getFriends(userId)} type="button">
               Find Friends
@@ -76,65 +71,6 @@ const SpacedDiv = styled.div`
     @media (max-width: 372px) {
       width: 90%;
     }
-  }
-`;
-
-const loading1 = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const loading3 = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-`;
-
-const loading2 = keyframes`
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
-`;
-
-const Loader = styled.div`
-  display: ${props => props.display};
-  position: relative;
-  height: 30px;
-  width: 80px;
-  margin: auto;
-  & div {
-    position: absolute;
-    top: 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #000;
-  }
-  & div:nth-of-type(1) {
-    left: 8px;
-    animation: ${loading1} 0.5s infinite;
-  }
-  & div:nth-of-type(2) {
-    left: 8px;
-    animation: ${loading2} 0.5s infinite;
-  }
-  & div:nth-of-type(3) {
-    left: 32px;
-    animation: ${loading2} 0.5s infinite;
-  }
-  & div:nth-of-type(4) {
-    left: 56px;
-    animation: ${loading3} 0.5s infinite;
   }
 `;
 
