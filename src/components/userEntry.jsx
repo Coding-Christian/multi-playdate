@@ -15,6 +15,9 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
       setUserId(e.target.value);
     }
   }
+  function handleGetFriends() {
+    getFriends(userId);
+  }
   function handleSubmit() {
     setUserId('');
     getSharedGames();
@@ -45,12 +48,16 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
           {isLoading ? (
             <Loader />
           ) : (
-            <StyledButton onClick={() => getFriends(userId)} type="button">
+            <StyledButton
+              onClick={handleGetFriends}
+              type="button"
+              disabled={/^\d{17}$/.test(userId) ? '' : 'disabled'}
+            >
               Find Friends
             </StyledButton>
           )}
           <StyledButton
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             type="button"
             disabled={isLoading || !canGetGames ? 'disabled' : ''}
           >
