@@ -79,7 +79,6 @@ const StyledAppArea = styled.div`
   align-items: center;
   justify-content: center;
   max-width: 640px;
-  height: 100vh;
   font-family: "Fira Mono", monospace;
   text-align: center;
   box-sizing: border-box;
@@ -87,6 +86,9 @@ const StyledAppArea = styled.div`
   margin: auto;
   & > * {
     animation: ${fadeIn} ease 0.5s;
+  }
+  @media (min-width: 576px) {
+    height: 100vh;
   }
 `;
 

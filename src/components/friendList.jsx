@@ -44,12 +44,13 @@ function FriendList({ friends, selectedIds, setSelectedIds }) {
 
 const FlexRowDiv = styled.div`
   display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
-  overflow-y: scroll;
   margin: 10px;
+  @media (min-width: 576px) {
+    overflow-y: scroll;
+  }
 `;
 
 const StyledH2 = styled.h2`
