@@ -56,6 +56,7 @@ const StyledImg = styled.img`
 `;
 
 const FixedCard = styled(StyledCard)`
+  flex-direction: row;
   max-width: 365px;
   text-align: left;
 `;
