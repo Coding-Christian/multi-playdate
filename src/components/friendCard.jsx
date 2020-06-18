@@ -23,13 +23,8 @@ function FriendCard({
   handleFriendClick
 }) {
   return (
-    <FixedCard>
-      <StyledImg
-        src={avatar}
-        alt={name}
-        onClick={() => handleFriendClick(steamId, checked)}
-        checked={checked}
-      />
+    <FixedCard onClick={() => handleFriendClick(steamId, checked)}>
+      <StyledImg src={avatar} alt={name} checked={checked} />
       <GrowDiv>
         <StyledP>
           <b>{name}</b>
@@ -37,7 +32,12 @@ function FriendCard({
         </StyledP>
         <FlexDiv>
           <span>{statuses[status]}</span>
-          <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
+          <StyledA
+            href={profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             {'Profile >>'}
           </StyledA>
         </FlexDiv>

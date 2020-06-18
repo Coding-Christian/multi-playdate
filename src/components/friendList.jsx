@@ -16,27 +16,29 @@ function FriendList({ friends, selectedIds, setSelectedIds }) {
   } else if (selectedIds.length > 1) {
     text = `Choose up to ${
       6 - selectedIds.length
-    } more friends or get shared games:`;
+    } friends or get shared games:`;
   } else {
     text = 'Choose up to 5 friends to compare games:';
   }
   return (
-    <FlexRowDiv>
+    <>
       <StyledH2>{text}</StyledH2>
-      {friends.map(friend => (
-        <FriendCard
-          key={friend.steamid}
-          steamId={friend.steamid}
-          name={friend.personaname}
-          realName={friend.realname}
-          avatar={friend.avatarmedium}
-          status={friend.personastate}
-          profileUrl={friend.profileurl}
-          handleFriendClick={handleFriendClick}
-          checked={selectedIds.includes(friend.steamid)}
-        />
-      ))}
-    </FlexRowDiv>
+      <FlexRowDiv>
+        {friends.map(friend => (
+          <FriendCard
+            key={friend.steamid}
+            steamId={friend.steamid}
+            name={friend.personaname}
+            realName={friend.realname}
+            avatar={friend.avatarmedium}
+            status={friend.personastate}
+            profileUrl={friend.profileurl}
+            handleFriendClick={handleFriendClick}
+            checked={selectedIds.includes(friend.steamid)}
+          />
+        ))}
+      </FlexRowDiv>
+    </>
   );
 }
 
@@ -46,9 +48,12 @@ const FlexRowDiv = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
+  overflow-y: scroll;
+  margin: 10px;
 `;
 
 const StyledH2 = styled.h2`
+  color: #f5f5f5;
   width: 100%;
   text-align: center;
   margin: 10px;
