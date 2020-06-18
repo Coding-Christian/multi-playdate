@@ -2,16 +2,19 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { keyframes } from '@emotion/core';
 import Header from './header';
+import ScrollToTop from './scrollToTop';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
 import GameList from './gameList';
 
 function App() {
   const [view, setView] = useState('initial');
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [friends, setFriends] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
+  window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 0));
   async function getFriends(steamId) {
     setIsLoading(true);
     setSelectedIds([steamId]);
@@ -33,11 +36,6 @@ function App() {
       setSharedGames(games);
     }
   }
-  // function reset() {
-  //   setView('initial');
-  //   setSharedGames([]);
-  //   setFriends([]);
-  // }
   let viewElement;
   if (view === 'games' && !isLoading) {
     viewElement = <GameList sharedGames={sharedGames} />;
@@ -60,6 +58,7 @@ function App() {
         canGetGames={selectedIds.length > 1}
       />
       {viewElement}
+      <ScrollToTop display={isScrolled} />
     </StyledAppArea>
   );
 }
@@ -85,7 +84,7 @@ const StyledAppArea = styled.div`
   padding: 10px;
   margin: auto;
   & > * {
-    animation: ${fadeIn} ease 0.5s;
+    animation: ${fadeIn} ease 1s;
   }
   @media (min-width: 576px) {
     height: 100vh;
