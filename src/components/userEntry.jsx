@@ -24,7 +24,7 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
   }
   return (
     <EntryContainer>
-      <p>Enter your SteamID to find your friends:</p>
+      <p>Enter your SteamID64 to find your friends:</p>
       <form>
         <SpacedDiv>
           <StyledInput
@@ -65,6 +65,13 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
           </StyledButton>
         </SpacedDiv>
       </form>
+      <p>
+        Find out your SteamID64{' '}
+        <a href="https://steamid.io/" target="_blank" rel="noopener noreferrer">
+          HERE
+        </a>
+        .
+      </p>
     </EntryContainer>
   );
 }
