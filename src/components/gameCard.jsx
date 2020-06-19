@@ -8,13 +8,21 @@ function GameCard({ appId, name, score, genres, description, background }) {
       <StyledP>
         <b>{name}</b>
       </StyledP>
-      <div>
-        <StyledSpan>Metacritic Score: {score || 'N/A'}</StyledSpan>
+      <StyledDiv>
         <StyledSpan>
-          Genres: {genres.length ? genres.slice(0, 2).join(', ') : 'N/A'}
+          Metacritic Score:
+          <br />
+          {score || 'N/A'}
         </StyledSpan>
-      </div>
-      <StyledP>{description}</StyledP>
+        <StyledSpan>
+          Genres:
+          <br />
+          {genres.length ? genres.slice(0, 2).join(', ') : 'N/A'}
+        </StyledSpan>
+      </StyledDiv>
+      <StyledP>
+        {description.substring(0, 128).replace(/&quot;/g, "'") + '...'}
+      </StyledP>
       <StyledA
         href={`steam://advertise/${appId}`}
         target="_blank"
@@ -26,19 +34,8 @@ function GameCard({ appId, name, score, genres, description, background }) {
   );
 }
 
-const StyledP = styled.p`
-  margin: 10px;
-`;
-
-const StyledSpan = styled.span`
-  margin: 10px;
-`;
-
-const StyledA = styled.a`
-  margin: 10px;
-`;
-
 const BackroundCard = styled(StyledCard)`
+  justify-content: space-between;
   width: 90%;
   background-image: url(${props => props.background});
   background-size: cover;
@@ -50,11 +47,27 @@ const BackroundCard = styled(StyledCard)`
     cursor: pointer;
   }
   @media (min-width: 992px) {
-    width: calc(50% - 60px);
+    width: calc(50% - 30px);
   }
   @media (min-width: 1200px) {
     width: calc(33% - 40px);
   }
+`;
+
+const StyledDiv = styled.div`
+  display: flex;
+`;
+
+const StyledP = styled.p`
+  margin: 10px;
+`;
+
+const StyledSpan = styled.span`
+  margin: 10px;
+`;
+
+const StyledA = styled.a`
+  margin: 10px;
 `;
 
 export default GameCard;

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
 import Header from './header';
 import ScrollToTop from './scrollToTop';
 import UserEntry from './userEntry';
@@ -63,15 +62,6 @@ function App() {
   );
 }
 
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
-
 const StyledAppArea = styled.div`
   display: flex;
   flex-direction: column;
@@ -83,8 +73,8 @@ const StyledAppArea = styled.div`
   box-sizing: border-box;
   padding: 10px;
   margin: auto;
-  & > * {
-    animation: ${fadeIn} ease 1s;
+  & * {
+    box-sizing: border-box;
   }
   @media (min-width: 576px) {
     max-width: 90vw;

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
@@ -76,8 +77,18 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
   );
 }
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
 const EntryContainer = styled(StyledCard)`
   max-width: 576px;
+  animation: ${fadeIn} ease-in-out 2s;
 `;
 
 const SpacedDiv = styled.div`
