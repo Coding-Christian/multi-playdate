@@ -88,6 +88,7 @@ const StyledAppArea = styled.div`
     animation: ${fadeIn} ease 1s;
   }
   @media (min-width: 576px) {
+    margin-top: 15vh;
     max-width: 90vw;
   }
 `;

@@ -48,7 +48,7 @@ const BackroundCard = styled(StyledCard)`
   background-blend-mode: screen;
   transition: all 0.1s ease-in-out;
   &:hover {
-    transform: scale(1.01);
+    border-width: 2px;
   }
 `;
 
