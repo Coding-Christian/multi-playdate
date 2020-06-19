@@ -23,7 +23,7 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
     getSharedGames();
   }
   return (
-    <StyledCard>
+    <EntryContainer>
       <p>Enter your SteamID to find your friends:</p>
       <form>
         <SpacedDiv>
@@ -65,9 +65,13 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
           </StyledButton>
         </SpacedDiv>
       </form>
-    </StyledCard>
+    </EntryContainer>
   );
 }
+
+const EntryContainer = styled(StyledCard)`
+  max-width: 576px;
+`;
 
 const SpacedDiv = styled.div`
   display: flex;

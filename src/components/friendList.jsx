@@ -24,19 +24,23 @@ function FriendList({ friends, selectedIds, setSelectedIds }) {
     <>
       <StyledH2>{text}</StyledH2>
       <FlexRowDiv>
-        {friends.map(friend => (
-          <FriendCard
-            key={friend.steamid}
-            steamId={friend.steamid}
-            name={friend.personaname}
-            realName={friend.realname}
-            avatar={friend.avatarmedium}
-            status={friend.personastate}
-            profileUrl={friend.profileurl}
-            handleFriendClick={handleFriendClick}
-            checked={selectedIds.includes(friend.steamid)}
-          />
-        ))}
+        {friends
+          .sort((a, b) =>
+            a.personaname.toLowerCase() > b.personaname.toLowerCase() ? 1 : -1
+          )
+          .map(friend => (
+            <FriendCard
+              key={friend.steamid}
+              steamId={friend.steamid}
+              name={friend.personaname}
+              realName={friend.realname}
+              avatar={friend.avatarmedium}
+              status={friend.personastate}
+              profileUrl={friend.profileurl}
+              handleFriendClick={handleFriendClick}
+              checked={selectedIds.includes(friend.steamid)}
+            />
+          ))}
       </FlexRowDiv>
     </>
   );
@@ -48,9 +52,6 @@ const FlexRowDiv = styled.div`
   justify-content: center;
   width: 100%;
   margin: 10px;
-  @media (min-width: 576px) {
-    overflow-y: scroll;
-  }
 `;
 
 const StyledH2 = styled.h2`
