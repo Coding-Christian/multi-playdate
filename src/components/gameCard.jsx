@@ -39,8 +39,8 @@ const StyledA = styled.a`
 `;
 
 const BackroundCard = styled(StyledCard)`
-  flex-direction: column;
   width: 90%;
+  max-width: 100%;
   background-image: url(${props => props.background});
   background-size: cover;
   background-position: center;
@@ -48,7 +48,11 @@ const BackroundCard = styled(StyledCard)`
   background-blend-mode: screen;
   transition: all 0.1s ease-in-out;
   &:hover {
+    cursor: pointer;
     border-width: 2px;
+  }
+  @media (min-width: 768px) {
+    max-width: calc(50% - 60px);
   }
 `;
 

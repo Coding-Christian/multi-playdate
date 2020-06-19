@@ -59,6 +59,9 @@ const FixedCard = styled(StyledCard)`
   flex-direction: row;
   max-width: 365px;
   text-align: left;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledA = styled.a`

@@ -8,7 +8,7 @@ function GameList({ sharedGames }) {
     <>
       <StyledH2>You have {sharedGames.length} games in common!</StyledH2>
       {sharedGames.length > 0 ? (
-        <StyledCard>
+        <GamesContainer>
           {sharedGames.map(game => (
             <GameCard
               key={game.steam_appid}
@@ -22,11 +22,17 @@ function GameList({ sharedGames }) {
               background={game.header_image}
             />
           ))}
-        </StyledCard>
+        </GamesContainer>
       ) : null}
     </>
   );
 }
+
+const GamesContainer = styled(StyledCard)`
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: stretch;
+`;
 
 const StyledH2 = styled.h2`
   color: #f5f5f5;

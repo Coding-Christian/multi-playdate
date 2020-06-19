@@ -77,7 +77,6 @@ const StyledAppArea = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-width: 640px;
   min-width: 300px;
   font-family: "Fira Mono", monospace;
   text-align: center;
@@ -88,7 +87,6 @@ const StyledAppArea = styled.div`
     animation: ${fadeIn} ease 1s;
   }
   @media (min-width: 576px) {
-    margin-top: 15vh;
     max-width: 90vw;
   }
 `;
