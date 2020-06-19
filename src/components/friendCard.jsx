@@ -11,6 +11,15 @@ const statuses = [
   'Looking to Trade',
   'Looking to Play'
 ];
+const colors = [
+  '#aa0000',
+  '#009900',
+  '#bbaa00',
+  '#bbaa00',
+  '#bbaa00',
+  '#2255dd',
+  '#2255dd'
+];
 
 function FriendCard({
   steamId,
@@ -31,7 +40,7 @@ function FriendCard({
           {realName ? ` (${realName})` : ''}
         </StyledP>
         <FlexDiv>
-          <span>{statuses[status]}</span>
+          <StatusSpan color={status}>{statuses[status]}</StatusSpan>
           <StyledA
             href={profileUrl}
             target="_blank"
@@ -62,6 +71,10 @@ const FixedCard = styled(StyledCard)`
   &:hover {
     cursor: pointer;
   }
+`;
+
+const StatusSpan = styled.span`
+  color: ${props => colors[props.color]};
 `;
 
 const StyledA = styled.a`
