@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 function Header(props) {
-  return <StyledH1>MultiPlayDate</StyledH1>;
+  return <StyledH1>multi-playdate</StyledH1>;
 }
 
 const StyledH1 = styled.h1`

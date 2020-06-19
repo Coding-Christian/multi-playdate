@@ -9,7 +9,7 @@ const StyledCard = styled.div`
   padding: 10px;
   border-radius: 0px 25px 0px 25px;
   border: 1px solid black;
-  box-shadow: -5px 5px #ffff;
+  box-shadow: -5px 5px #f5f5f5;
   margin: 10px;
 `;
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import StyledCard from './emotion/styledCard';
 import GameCard from './gameCard';
 
 function GameList({ sharedGames }) {
@@ -28,15 +27,19 @@ function GameList({ sharedGames }) {
   );
 }
 
-const GamesContainer = styled(StyledCard)`
+const GamesContainer = styled.div`
+  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: stretch;
+  width: 90%;
+  padding: 10px;
+  margin: 10px;
 `;
 
 const StyledH2 = styled.h2`
   color: #f5f5f5;
-  margin: 10px;
+  margin: 30px 10px 10px 10px;
 `;
 
 export default GameList;

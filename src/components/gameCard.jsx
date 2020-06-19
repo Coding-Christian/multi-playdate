@@ -40,7 +40,6 @@ const StyledA = styled.a`
 
 const BackroundCard = styled(StyledCard)`
   width: 90%;
-  max-width: 100%;
   background-image: url(${props => props.background});
   background-size: cover;
   background-position: center;
@@ -49,10 +48,12 @@ const BackroundCard = styled(StyledCard)`
   transition: all 0.1s ease-in-out;
   &:hover {
     cursor: pointer;
-    border-width: 2px;
   }
-  @media (min-width: 768px) {
-    max-width: calc(50% - 60px);
+  @media (min-width: 992px) {
+    width: calc(50% - 60px);
+  }
+  @media (min-width: 1200px) {
+    width: calc(33% - 40px);
   }
 `;
 
