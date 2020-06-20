@@ -8,6 +8,7 @@ package steam
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
 func unmarshalSteamGameListResponse(data []byte) (steamGameListResponse, error) {
@@ -30,6 +31,49 @@ type Game struct {
 	Appid           int  `json:"appid"`
 	PlaytimeForever int  `json:"playtime_forever"`
 	Playtime2Weeks  *int `json:"playtime_2weeks,omitempty"`
+}
+
+func unmarshalSteamGameInfoResponse(data []byte) (steamGameInfoResponse, error) {
+	var r steamGameInfoResponse
+	err := json.Unmarshal(data, &r)
+	if err != nil {
+		fmt.Println(err)
+
+	}
+	return r, err
+}
+
+type steamGameInfoResponse map[string]response
+
+type response struct {
+	Success  bool     `json:"success"`
+	GameInfo GameInfo `json:"data"`
+}
+
+//GameInfo is a data model for steam game info
+type GameInfo struct {
+	HeaderImage      *string     `json:"header_image,omitempty"`
+	SteamAppid       *int64      `json:"steam_appid,omitempty"`
+	Metacritic       *metacritic `json:"metacritic,omitempty"`
+	Genres           []genre     `json:"genres"`
+	Name             *string     `json:"name,omitempty"`
+	ShortDescription *string     `json:"short_description,omitempty"`
+	Categories       []category  `json:"categories"`
+}
+
+type category struct {
+	ID          *int64  `json:"id,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+
+type genre struct {
+	ID          *string `json:"id,omitempty"`
+	Description *string `json:"description,omitempty"`
+}
+
+type metacritic struct {
+	Score *int64  `json:"score,omitempty"`
+	URL   *string `json:"url,omitempty"`
 }
 
 func unmarshalSteamFriends(data []byte) (steamFriends, error) {
