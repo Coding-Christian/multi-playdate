@@ -1,72 +1,84 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import StyledContainer from './emotion/styledContainer';
+import Header from './header';
+import ScrollToTop from './scrollToTop';
 import UserEntry from './userEntry';
-import DetailCard from './detailCard';
+import FriendList from './friendList';
+import GameList from './gameList';
 
-const StyledH1 = styled.h1`
-  margin: 10px;
-`;
+function App() {
+  const [view, setView] = useState('initial');
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [friends, setFriends] = useState([]);
+  const [selectedIds, setSelectedIds] = useState([]);
+  const [sharedGames, setSharedGames] = useState([]);
+  window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 0));
+  async function getFriends(steamId) {
+    setIsLoading(true);
+    setSelectedIds([steamId]);
+    setView('friends');
+    const response = await fetch(`/api/friends?steamid=${steamId}`);
+    const users = await response.json();
+    setIsLoading(false);
+    setFriends(users);
+  }
+  async function getSharedGames() {
+    if (selectedIds.length >= 2) {
+      setIsLoading(true);
+      setView('games');
+      const response = await fetch(
+        `/api/shared/games?steamids=${selectedIds.join(',')}`
+      );
+      const games = await response.json();
+      setIsLoading(false);
+      setSharedGames(games);
+    }
+  }
+  let viewElement;
+  if (view === 'games' && !isLoading) {
+    viewElement = <GameList sharedGames={sharedGames} />;
+  } else if (view === 'friends' && !isLoading) {
+    viewElement = (
+      <FriendList
+        friends={friends}
+        selectedIds={selectedIds}
+        setSelectedIds={setSelectedIds}
+      />
+    );
+  }
+  return (
+    <StyledAppArea>
+      <Header />
+      <UserEntry
+        getFriends={getFriends}
+        getSharedGames={getSharedGames}
+        isLoading={isLoading}
+        canGetGames={selectedIds.length > 1}
+      />
+      {viewElement}
+      <ScrollToTop display={isScrolled} />
+    </StyledAppArea>
+  );
+}
 
 const StyledAppArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  min-height: 100vh;
-  font-family: "Raleway", sans-serif;
-  background-color: #fff;
+  justify-content: center;
+  min-width: 300px;
+  font-family: "Fira Mono", monospace;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 10px;
   margin: auto;
-  @media (min-width: 916px) {
-    width: 916px;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-image: linear-gradient(
-      to bottom right,
-      #b827fc 0%,
-      #2c90fc 25%,
-      #b8fd33 50%,
-      #fec837 75%,
-      #fd1892 100%
-    );
-    border-image-slice: 1;
+  & * {
+    box-sizing: border-box;
   }
-  @media (min-width: 1366px) {
-    width: 70%;
+  @media (min-width: 576px) {
+    max-width: 90vw;
   }
 `;
-
-function App(props) {
-  const [sharedGames, setSharedGames] = useState([]);
-  async function getSharedGames(steamIds) {
-    const response = await fetch(
-      `/api/shared/games?steamids=${steamIds.join(',')}`
-    );
-    const games = await response.json();
-    setSharedGames(games);
-  }
-  return (
-    <StyledAppArea>
-      <UserEntry getSharedGames={getSharedGames} maxPlayers={6} />
-      {sharedGames.length ? (
-        <StyledContainer>
-          <StyledH1>You have {sharedGames.length} games in common!</StyledH1>
-          {sharedGames.map(game => (
-            <DetailCard
-              key={game.steam_appid}
-              appId={game.steam_appid}
-              name={game.name}
-              score={game.metacritic ? game.metacritic.score : undefined}
-              genres={game.genres.map(genre => genre.description)}
-              description={game.short_description}
-              background={game.header_image}
-            />
-          ))}
-        </StyledContainer>
-      ) : null}
-    </StyledAppArea>
-  );
-}
 
 export default App;
