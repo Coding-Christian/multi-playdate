@@ -6,7 +6,8 @@ import (
 	"log"
 	"net/http"
 	"strings"
-
+	"fmt"
+	"os"
 	"server/steam"
 
 	"github.com/gorilla/handlers"

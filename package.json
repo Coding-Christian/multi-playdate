@@ -1,7 +1,7 @@
 {
   "name": "multi-playdate",
   "version": "1.0.0",
-  "description": "A web app for gamers who want to coordinate gaming sessions",
+  "description": "A React-based web app for Steam gamers who want to coordinate gaming sessions",
   "main": "index.html",
   "scripts": {
     "dev": "webpack-dev-server",
@@ -43,8 +43,8 @@
     "npm-run-all": "4.1.5",
     "prettier": "2.0.2",
     "webpack": "4.31.0",
-    "webpack-cli": "3.3.2",
-    "webpack-dev-server": "3.3.1"
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
   },
   "repository": {
     "type": "git",
