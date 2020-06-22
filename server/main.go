@@ -3,11 +3,14 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
-	"strings"
-	"fmt"
 	"os"
+	"strconv"
+	"strings"
+	"sync"
 	"server/steam"
 
 	"github.com/gorilla/handlers"
@@ -16,12 +19,27 @@ import (
 
 type server struct{}
 
+var cache map[string]steam.GameInfo
+
 func convertGameSliceToSet(games []steam.Game) Set {
 	gameSet := NewSet()
 	for _, elem := range games {
 		gameSet.m[elem.Appid] = true
 	}
 	return *gameSet
+}
+
+func findCommonGames(allGames [][]steam.Game) []int {
+	primarySet := convertGameSliceToSet(allGames[0])
+	for _, gameSlice := range allGames[1:] {
+		primarySet.Union(convertGameSliceToSet(gameSlice))
+	}
+	sharedGames := make([]int, 0, len(primarySet.m))
+	for k := range primarySet.m {
+		sharedGames = append(sharedGames, k)
+	}
+
+	return sharedGames
 }
 
 func filterByMultiplayer(games []steam.GameInfo) []steam.GameInfo {
@@ -39,39 +57,30 @@ func filterByMultiplayer(games []steam.GameInfo) []steam.GameInfo {
 	return filteredGames
 }
 
-func findCommonGames(allGames [][]steam.Game) []int {
-	primarySet := convertGameSliceToSet(allGames[0])
-	for _, gameSlice := range allGames[1:] {
-		primarySet.Union(convertGameSliceToSet(gameSlice))
-	}
-	sharedGames := make([]int, 0, len(primarySet.m))
-	for k := range primarySet.m {
-		sharedGames = append(sharedGames, k)
-	}
-
-	return sharedGames
-}
-
 func getDetailsForGames(appIDs []int) ([]steam.GameInfo, error) {
 	allGameInfo := make([]steam.GameInfo, len(appIDs))
 
-	ch := make(chan int)
+	var wg sync.WaitGroup
+	wg.Add(len(appIDs))
 	for i, appID := range appIDs {
 		i := i
-		go func(appID int, ch chan int, allGameInfo []steam.GameInfo) error {
-			var err error
-			defer func() { ch <- i }()
+		go func(appID int, allGameInfo []steam.GameInfo) error {
+			defer wg.Done()
+
+			if gameInfo, ok := cache[strconv.Itoa(appID)]; ok {
+				allGameInfo[i] = gameInfo
+				return nil
+			}
+
 			gameInfo, err := steam.GetDetailsForGame(appID)
 			if err != nil {
 				return err
 			}
 			allGameInfo[i] = *gameInfo
 			return nil
-		}(appID, ch, allGameInfo)
+		}(appID, allGameInfo)
 	}
-	for range appIDs {
-		<-ch
-	}
+	wg.Wait()
 	return allGameInfo, nil
 }
 
@@ -86,12 +95,12 @@ func getGamesForAllPlayers(IDs []string) ([]steam.GameInfo, error) {
 		allGames[i] = games
 	}
 	sharedGames := findCommonGames(allGames)
-
-	gameInfo, err := getDetailsForGames(sharedGames)
+	games, err := getDetailsForGames(sharedGames)
 	if err != nil {
-		return nil, errors.New("Error parsing Request for gameinfo")
+		return nil, errors.New("Error getting games")
 	}
-	return gameInfo, nil
+
+	return games, nil
 }
 
 func getSharedGames(w http.ResponseWriter, r *http.Request) {
@@ -115,9 +124,9 @@ func getSharedGames(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-	multiplayerGames := filterByMultiplayer(allGames)
+	multiplayer := filterByMultiplayer(allGames)
 
-	bytes, _ := json.Marshal(multiplayerGames)
+	bytes, _ := json.Marshal(multiplayer)
 
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(bytes))
@@ -150,6 +159,20 @@ func getUserFriends(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	router := mux.NewRouter()
+	fmt.Println("preparing cache")
+
+	f, err := os.Open("./gameInfogit .json")
+	if err != nil {
+		log.Println(err)
+	}
+	b, err := ioutil.ReadAll(f)
+	if err != nil {
+		log.Println(err)
+	}
+	err = json.Unmarshal(b, &cache)
+	if err != nil {
+		log.Println(err)
+	}
 
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/shared/games", getSharedGames).Methods(http.MethodGet)

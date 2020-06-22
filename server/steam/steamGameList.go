@@ -52,17 +52,13 @@ type response struct {
 
 //GameInfo is a data model for steam game info
 type GameInfo struct {
-	Type             *string      `json:"type,omitempty"`
-	Name             *string      `json:"name,omitempty"`
-	SteamAppid       *int64       `json:"steam_appid,omitempty"`
-	IsFree           *bool        `json:"is_free,omitempty"`
-	ShortDescription *string      `json:"short_description,omitempty"`
-	HeaderImage      *string      `json:"header_image,omitempty"`
-	Metacritic       *metacritic  `json:"metacritic,omitempty"`
-	Categories       []category   `json:"categories"`
-	Genres           []genre      `json:"genres"`
-	Screenshots      []screenshot `json:"screenshots"`
-	Background       *string      `json:"background,omitempty"`
+	HeaderImage      *string     `json:"header_image,omitempty"`
+	SteamAppid       *int64      `json:"steam_appid,omitempty"`
+	Metacritic       *metacritic `json:"metacritic,omitempty"`
+	Genres           []genre     `json:"genres"`
+	Name             *string     `json:"name,omitempty"`
+	ShortDescription *string     `json:"short_description,omitempty"`
+	Categories       []category  `json:"categories"`
 }
 
 type category struct {
@@ -78,12 +74,6 @@ type genre struct {
 type metacritic struct {
 	Score *int64  `json:"score,omitempty"`
 	URL   *string `json:"url,omitempty"`
-}
-
-type screenshot struct {
-	ID            *int64  `json:"id,omitempty"`
-	PathThumbnail *string `json:"path_thumbnail,omitempty"`
-	PathFull      *string `json:"path_full,omitempty"`
 }
 
 func unmarshalSteamFriends(data []byte) (steamFriends, error) {

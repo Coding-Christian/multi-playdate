@@ -86,11 +86,14 @@ func GetDetailsForGame(appID int) (*GameInfo, error) {
 	steamGameInfoURL := fmt.Sprintf("https://store.steampowered.com/api/appdetails?appids=%d", appID)
 	resp, err := http.Get(steamGameInfoURL)
 	if err != nil {
-		fmt.Println(err)
-
 		return nil, errors.New("Error with Request")
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, errors.New("Error request did not send back a 200")
+	}
+
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, errors.New("Error reading body Request")
