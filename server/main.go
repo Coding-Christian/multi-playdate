@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -84,7 +85,7 @@ func getDetailsForGames(appIDs []int) ([]steam.GameInfo, error) {
 	return allGameInfo, nil
 }
 
-func getGamesForAllPlayers(IDs []string) ([]int, error) {
+func getGamesForAllPlayers(IDs []string) ([]steam.GameInfo, error) {
 	allGames := make([][]steam.Game, len(IDs))
 
 	for i, ID := range IDs {
@@ -95,8 +96,12 @@ func getGamesForAllPlayers(IDs []string) ([]int, error) {
 		allGames[i] = games
 	}
 	sharedGames := findCommonGames(allGames)
+	games, err := getDetailsForGames(sharedGames)
+	if err != nil {
+		return nil, errors.New("Error getting games")
+	}
 
-	return sharedGames, nil
+	return games, nil
 }
 
 func getSharedGames(w http.ResponseWriter, r *http.Request) {
@@ -120,13 +125,7 @@ func getSharedGames(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Println(err)
 	}
-
-	games, err := getDetailsForGames(allGames)
-	if err != nil {
-		log.Println(err)
-	}
-
-	multiplayer := filterByMultiplayer(games)
+	multiplayer := filterByMultiplayer(allGames)
 
 	bytes, _ := json.Marshal(multiplayer)
 
@@ -163,7 +162,7 @@ func main() {
 	router := mux.NewRouter()
 	fmt.Println("preparing cache")
 
-	f, err := os.Open("./gameInfo.json")
+	f, err := os.Open("./gameInfogit .json")
 	if err != nil {
 		log.Println(err)
 	}
