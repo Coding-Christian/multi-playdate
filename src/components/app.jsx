@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { keyframes } from '@emotion/core';
 import Header from './header';
+import ScrollToTop from './scrollToTop';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
 import GameList from './gameList';
 
 function App() {
   const [view, setView] = useState('initial');
+  const [isScrolled, setIsScrolled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [friends, setFriends] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
+  window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 0));
   async function getFriends(steamId) {
     setIsLoading(true);
     setSelectedIds([steamId]);
@@ -33,11 +35,6 @@ function App() {
       setSharedGames(games);
     }
   }
-  function reset() {
-    setView('initial');
-    setSharedGames([]);
-    setFriends([]);
-  }
   let viewElement;
   if (view === 'games' && !isLoading) {
     viewElement = <GameList sharedGames={sharedGames} />;
@@ -54,60 +51,33 @@ function App() {
     <StyledAppArea>
       <Header />
       <UserEntry
-        reset={reset}
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
         canGetGames={selectedIds.length > 1}
       />
       {viewElement}
+      <ScrollToTop display={isScrolled} />
     </StyledAppArea>
   );
 }
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-`;
 
 const StyledAppArea = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  min-height: 100vh;
-  font-family: "Raleway", sans-serif;
+  justify-content: center;
+  min-width: 300px;
+  font-family: "Fira Mono", monospace;
   text-align: center;
-  background-image: url("img/peripherals.png");
+  box-sizing: border-box;
+  padding: 10px;
   margin: auto;
-  & > * {
-    animation: ${fadeIn} ease 0.5s;
+  & * {
+    box-sizing: border-box;
   }
-  & button:disabled {
-    cursor: not-allowed;
-  }
-  @media (min-width: 926px) {
-    width: 916px;
-    text-align: left;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-image: linear-gradient(
-      to bottom right,
-      #b827fc 0%,
-      #2c90fc 25%,
-      #b8fd33 50%,
-      #fec837 75%,
-      #fd1892 100%
-    );
-    border-image-slice: 1;
-  }
-  @media (min-width: 1366px) {
-    width: 70%;
+  @media (min-width: 576px) {
+    max-width: 90vw;
   }
 `;
 

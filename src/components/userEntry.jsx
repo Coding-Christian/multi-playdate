@@ -3,32 +3,29 @@ import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
-import StyledContainer from './emotion/styledContainer';
+import StyledCard from './emotion/styledCard';
+import Loader from './loader';
 
-function UserEntry({
-  reset,
-  getFriends,
-  getSharedGames,
-  isLoading,
-  canGetGames
-}) {
+function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
   const [userId, setUserId] = useState('');
   function resetForm() {
     setUserId('');
-    reset();
   }
   function handleChange(e) {
     if (/^\d{0,17}$/.test(e.target.value)) {
       setUserId(e.target.value);
     }
   }
+  function handleGetFriends() {
+    getFriends(userId);
+  }
   function handleSubmit() {
     setUserId('');
     getSharedGames();
   }
   return (
-    <StyledContainer>
-      <p>Enter your SteamID to find your friends:</p>
+    <EntryContainer>
+      <p>Enter your SteamID64 to find your friends:</p>
       <form>
         <SpacedDiv>
           <StyledInput
@@ -45,104 +42,64 @@ function UserEntry({
             type="button"
             disabled={isLoading ? 'disabled' : ''}
           >
-            Reset
+            Clear
           </StyledButton>
         </SpacedDiv>
         <SpacedDiv>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <StyledButton
+              onClick={handleGetFriends}
+              type="button"
+              disabled={/^\d{17}$/.test(userId) ? '' : 'disabled'}
+            >
+              Find Friends
+            </StyledButton>
+          )}
           <StyledButton
-            onClick={() => getFriends(userId)}
-            type="button"
-            disabled={isLoading ? 'disabled' : ''}
-          >
-            Find Friends
-          </StyledButton>
-          <StyledButton
-            onClick={() => handleSubmit()}
+            onClick={handleSubmit}
             type="button"
             disabled={isLoading || !canGetGames ? 'disabled' : ''}
           >
-            Get Shared Games
+            Compare Games
           </StyledButton>
         </SpacedDiv>
       </form>
-      <Loader display={isLoading ? 'inline-block' : 'none'}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-      </Loader>
-    </StyledContainer>
+      <p>
+        Find out your SteamID64{' '}
+        <a href="https://steamid.io/" target="_blank" rel="noopener noreferrer">
+          HERE
+        </a>
+        .
+      </p>
+    </EntryContainer>
   );
 }
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const EntryContainer = styled(StyledCard)`
+  max-width: 576px;
+  animation: ${fadeIn} ease-in-out 2s;
+`;
 
 const SpacedDiv = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  & button,
-  input {
-    @media (max-width: 370px) {
+  & > * {
+    @media (max-width: 372px) {
       width: 90%;
     }
-  }
-`;
-
-const loading1 = keyframes`
-  0% {
-    transform: scale(0);
-  }
-  100% {
-    transform: scale(1);
-  }
-`;
-
-const loading3 = keyframes`
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(0);
-  }
-`;
-
-const loading2 = keyframes`
-  0% {
-    transform: translate(0, 0);
-  }
-  100% {
-    transform: translate(24px, 0);
-  }
-`;
-
-const Loader = styled.div`
-  display: ${props => props.display};
-  position: relative;
-  height: 30px;
-  width: 80px;
-  & div {
-    position: absolute;
-    top: 10px;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #000;
-  }
-  & div:nth-of-type(1) {
-    left: 8px;
-    animation: ${loading1} 0.5s infinite;
-  }
-  & div:nth-of-type(2) {
-    left: 8px;
-    animation: ${loading2} 0.5s infinite;
-  }
-  & div:nth-of-type(3) {
-    left: 32px;
-    animation: ${loading2} 0.5s infinite;
-  }
-  & div:nth-of-type(4) {
-    left: 56px;
-    animation: ${loading3} 0.5s infinite;
   }
 `;
 

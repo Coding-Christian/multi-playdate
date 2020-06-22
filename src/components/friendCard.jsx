@@ -11,6 +11,15 @@ const statuses = [
   'Looking to Trade',
   'Looking to Play'
 ];
+const colors = [
+  '#aa0000',
+  '#009900',
+  '#bbaa00',
+  '#bbaa00',
+  '#bbaa00',
+  '#2255dd',
+  '#2255dd'
+];
 
 function FriendCard({
   steamId,
@@ -23,21 +32,21 @@ function FriendCard({
   handleFriendClick
 }) {
   return (
-    <FixedCard>
-      <StyledImg
-        src={avatar}
-        alt={name}
-        onClick={() => handleFriendClick(steamId, checked)}
-        checked={checked}
-      />
+    <FixedCard onClick={() => handleFriendClick(steamId, checked)}>
+      <StyledImg src={avatar} alt={name} checked={checked} />
       <GrowDiv>
         <StyledP>
           <b>{name}</b>
           {realName ? ` (${realName})` : ''}
         </StyledP>
         <FlexDiv>
-          <span>{statuses[status]}</span>
-          <StyledA href={profileUrl} target="_blank" rel="noopener noreferrer">
+          <StatusSpan color={status}>{statuses[status]}</StatusSpan>
+          <StyledA
+            href={profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+          >
             {'Profile >>'}
           </StyledA>
         </FlexDiv>
@@ -56,8 +65,16 @@ const StyledImg = styled.img`
 `;
 
 const FixedCard = styled(StyledCard)`
+  flex-direction: row;
   max-width: 365px;
   text-align: left;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const StatusSpan = styled.span`
+  color: ${props => colors[props.color]};
 `;
 
 const StyledA = styled.a`
