@@ -3,7 +3,7 @@ import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 
 function Header(props) {
-  return <StyledH1>multi-playdate</StyledH1>;
+  return <StyledH1>Steam Tavern</StyledH1>;
 }
 
 const fadeIn = keyframes`

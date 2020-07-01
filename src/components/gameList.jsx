@@ -31,6 +31,7 @@ const GamesContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
   align-items: stretch;
   width: 90%;
   padding: 10px;

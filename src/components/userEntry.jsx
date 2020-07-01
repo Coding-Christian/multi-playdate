@@ -49,21 +49,23 @@ function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
           {isLoading ? (
             <Loader />
           ) : (
-            <StyledButton
-              onClick={handleGetFriends}
-              type="button"
-              disabled={/^\d{17}$/.test(userId) ? '' : 'disabled'}
-            >
-              Find Friends
-            </StyledButton>
+            <>
+              <StyledButton
+                onClick={handleGetFriends}
+                type="button"
+                disabled={/^\d{17}$/.test(userId) ? '' : 'disabled'}
+              >
+                Find Friends
+              </StyledButton>
+              <StyledButton
+                onClick={handleSubmit}
+                type="button"
+                disabled={!canGetGames ? 'disabled' : ''}
+              >
+                Compare Games
+              </StyledButton>
+            </>
           )}
-          <StyledButton
-            onClick={handleSubmit}
-            type="button"
-            disabled={isLoading || !canGetGames ? 'disabled' : ''}
-          >
-            Compare Games
-          </StyledButton>
         </SpacedDiv>
       </form>
       <p>

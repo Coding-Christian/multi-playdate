@@ -161,7 +161,7 @@ func main() {
 	router := mux.NewRouter()
 	fmt.Println("preparing cache")
 
-	f, err := os.Open("./gameInfogit .json")
+	f, err := os.Open("server/gameInfo.json")
 	if err != nil {
 		log.Println(err)
 	}
@@ -173,6 +173,7 @@ func main() {
 	if err != nil {
 		log.Println(err)
 	}
+	fmt.Println("cache prepared")
 
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/shared/games", getSharedGames).Methods(http.MethodGet)
