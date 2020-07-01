@@ -2,9 +2,17 @@ import React from 'react';
 import styled from '@emotion/styled';
 import StyledCard from './emotion/styledCard';
 
-function GameCard({ appId, name, score, genres, description, background }) {
+function GameCard({
+  appId,
+  name,
+  score,
+  genres,
+  description,
+  background,
+  selected
+}) {
   return (
-    <BackroundCard background={background}>
+    <BackroundCard background={background} selected={selected}>
       <StyledP>
         <b>{name}</b>
       </StyledP>
@@ -47,10 +55,10 @@ const BackroundCard = styled(StyledCard)`
     cursor: pointer;
   }
   @media (min-width: 992px) {
-    width: calc(50% - 30px);
+    width: ${props => (props.selected ? '90%' : '45%')};
   }
   @media (min-width: 1200px) {
-    width: calc(33% - 40px);
+    width: ${props => (props.selected ? '90%' : '30%')};
   }
 `;
 

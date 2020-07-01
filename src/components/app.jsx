@@ -13,6 +13,7 @@ function App() {
   const [friends, setFriends] = useState([]);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sharedGames, setSharedGames] = useState([]);
+  const [selectedGame, setSelectedGame] = useState(0);
   window.addEventListener('scroll', () => setIsScrolled(window.scrollY > 0));
   async function getFriends(steamId) {
     setIsLoading(true);
@@ -33,11 +34,20 @@ function App() {
       const games = await response.json();
       setIsLoading(false);
       setSharedGames(games);
+      setSelectedGame(
+        games[Math.floor(Math.random() * sharedGames.length)].steam_appid
+      );
     }
   }
   let viewElement;
   if (view === 'games' && !isLoading) {
-    viewElement = <GameList sharedGames={sharedGames} />;
+    viewElement = (
+      <GameList
+        sharedGames={sharedGames}
+        selectedGame={selectedGame}
+        setSelectedGame={setSelectedGame}
+      />
+    );
   } else if (view === 'friends' && !isLoading) {
     viewElement = (
       <FriendList
@@ -57,7 +67,7 @@ function App() {
         canGetGames={selectedIds.length > 1}
       />
       {viewElement}
-      <ScrollToTop display={isScrolled} />
+      <ScrollToTop displayed={isScrolled} />
     </StyledAppArea>
   );
 }

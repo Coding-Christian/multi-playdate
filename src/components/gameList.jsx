@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import GameCard from './gameCard';
 
-function GameList({ sharedGames }) {
+function GameList({ sharedGames, selectedGame }) {
   return (
     <>
       <StyledH2>You have {sharedGames.length} games in common!</StyledH2>
@@ -19,6 +19,7 @@ function GameList({ sharedGames }) {
               }
               description={game.short_description}
               background={game.header_image}
+              selected={game.steam_appid === selectedGame}
             />
           ))}
         </GamesContainer>

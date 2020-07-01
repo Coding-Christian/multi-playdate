@@ -1,14 +1,14 @@
 import React from 'react';
 import styled from '@emotion/styled';
 
-function ScrollToTop({ display }) {
+function ScrollToTop({ displayed }) {
   return (
     <FixedDiv
       onClick={e => {
         e.stopPropagation();
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }}
-      display={display}
+      displayed={displayed}
     >
       ^
     </FixedDiv>
@@ -16,7 +16,7 @@ function ScrollToTop({ display }) {
 }
 
 const FixedDiv = styled.div`
-  display: ${props => (props.display ? 'flex' : 'none')};
+  display: ${props => (props.displayed ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
   position: fixed;
