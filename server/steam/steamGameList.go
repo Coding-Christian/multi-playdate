@@ -167,7 +167,10 @@ type userResponse struct {
 
 //Player is a data model for steam players
 type Player struct {
-	Steamid     *string `json:"steamid,omitempty"`
-	Realname    *string `json:"realname,omitempty"`
-	Personaname *string `json:"personaname,omitempty"`
+	Steamid      *string `json:"steamid,omitempty"`
+	Realname     *string `json:"realname,omitempty"`
+	Personaname  *string `json:"personaname,omitempty"`
+	Avatarmedium *string `json:"avatarmedium,omitempty"`
+	ProfileUrl   *string `json:"profileurl,omitempty"`
+	Personastate *int64  `json:"personastate,omitempty"`
 }

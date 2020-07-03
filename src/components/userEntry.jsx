@@ -1,84 +1,108 @@
 import React, { useState } from 'react';
+import { keyframes } from '@emotion/core';
 import styled from '@emotion/styled';
 import StyledButton from './emotion/styledButton';
 import StyledInput from './emotion/styledInput';
-import StyledContainer from './emotion/styledContainer';
+import StyledCard from './emotion/styledCard';
+import Loader from './loader';
 
-const StyledH1 = styled.h1`
-  margin: 10px;
-`;
-
-const StyledSpan = styled.span`
-  margin: 10px;
-`;
-
-function UserEntry({ getSharedGames, maxPlayers }) {
-  const [steamIds, setSteamIds] = useState(['', '']);
-  let inputs = [];
-  for (let i = 0; i < steamIds.length; i++) {
-    inputs.push(
-      <StyledInput
-        key={i}
-        id={i}
-        onChange={handleChange}
-        placeholder="SteamID"
-        type="number"
-        maxLength="17"
-        value={steamIds[i]}
-        required
-      />
-    );
-  }
-  function clearSteamIds() {
-    let newSteamIds = steamIds.map(steamId => '');
-    setSteamIds(newSteamIds);
+function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
+  const [userId, setUserId] = useState('');
+  function resetForm() {
+    setUserId('');
   }
   function handleChange(e) {
-    const newSteamIds = [...steamIds];
-    newSteamIds[e.target.id] = e.target.value;
-    setSteamIds(newSteamIds);
+    if (/^\d{0,17}$/.test(e.target.value)) {
+      setUserId(e.target.value);
+    }
+  }
+  function handleGetFriends() {
+    getFriends(userId);
+  }
+  function handleSubmit() {
+    setUserId('');
+    getSharedGames();
   }
   return (
-    <StyledContainer>
-      <StyledH1>MultiPlayDate</StyledH1>
-      <div>
-        <StyledSpan>Add or Remove Players:</StyledSpan>
-        <span>
-          <StyledButton
-            onClick={() =>
-              steamIds.length < maxPlayers
-                ? setSteamIds(steamIds => [...steamIds, ''])
-                : null
-            }
-            type="button"
-          >
-            Add
-          </StyledButton>
-          <StyledButton
-            onClick={() =>
-              steamIds.length > 2
-                ? setSteamIds(steamIds => steamIds.slice(0, -1))
-                : null
-            }
-            type="button"
-          >
-            Remove
-          </StyledButton>
-        </span>
-      </div>
+    <EntryContainer>
+      <p>Enter your SteamID64 to find your friends:</p>
       <form>
-        {inputs}
-        <div>
-          <StyledButton onClick={() => getSharedGames(steamIds)} type="button">
-            Get Shared Games
-          </StyledButton>
-          <StyledButton onClick={clearSteamIds} type="button">
+        <SpacedDiv>
+          <StyledInput
+            onChange={handleChange}
+            placeholder="SteamID"
+            type="text"
+            maxLength="17"
+            value={userId}
+            disabled={isLoading ? 'disabled' : ''}
+            required
+          />
+          <StyledButton
+            onClick={resetForm}
+            type="button"
+            disabled={isLoading ? 'disabled' : ''}
+          >
             Clear
           </StyledButton>
-        </div>
+        </SpacedDiv>
+        <SpacedDiv>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              <StyledButton
+                onClick={handleGetFriends}
+                type="button"
+                disabled={/^\d{17}$/.test(userId) ? '' : 'disabled'}
+              >
+                Find Friends
+              </StyledButton>
+              <StyledButton
+                onClick={handleSubmit}
+                type="button"
+                disabled={!canGetGames ? 'disabled' : ''}
+              >
+                Compare Games
+              </StyledButton>
+            </>
+          )}
+        </SpacedDiv>
       </form>
-    </StyledContainer>
+      <p>
+        Find out your SteamID64{' '}
+        <a href="https://steamid.io/" target="_blank" rel="noopener noreferrer">
+          HERE
+        </a>
+        .
+      </p>
+    </EntryContainer>
   );
 }
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
+
+const EntryContainer = styled(StyledCard)`
+  max-width: 576px;
+  animation: ${fadeIn} ease-in-out 2s;
+`;
+
+const SpacedDiv = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  & > * {
+    @media (max-width: 372px) {
+      width: 90%;
+    }
+  }
+`;
 
 export default UserEntry;
