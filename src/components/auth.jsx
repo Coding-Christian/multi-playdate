@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 
-export const Auth = () => {
+function Auth() {
   const [authURL, setAuthURL] = useState('');
   useEffect(() => {
     const getUrl = async () => {
@@ -16,9 +16,10 @@ export const Auth = () => {
       <StyledImg src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" />
     </a>
   );
-};
+}
 
 const StyledImg = styled.img`
   max-width: 180px;
   max-height: 35px;
 `;
+export default Auth;
