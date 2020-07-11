@@ -61,6 +61,60 @@ type GameInfo struct {
 	Categories       []category  `json:"categories"`
 }
 
+func unmarshalAllSteamGameInfoResponse(data []byte) (allSteamGameInfoResponse, error) {
+	var r allSteamGameInfoResponse
+	err := json.Unmarshal(data, &r)
+	if err != nil {
+		fmt.Println(err)
+
+	}
+	return r, err
+}
+
+type allSteamGameInfoResponse map[string]responseAll
+
+type responseAll struct {
+	Success     bool        `json:"success"`
+	AllGameInfo AllGameInfo `json:"data"`
+}
+
+//AllGameInfo is a data model for steam game info
+type AllGameInfo struct {
+	Type                *string             `json:"type,omitempty"`
+	Name                *string             `json:"name,omitempty"`
+	SteamAppid          *int64              `json:"steam_appid,omitempty"`
+	IsFree              *bool               `json:"is_free,omitempty"`
+	Dlc                 []int64             `json:"dlc"`
+	DetailedDescription *string             `json:"detailed_description,omitempty"`
+	AboutTheGame        *string             `json:"about_the_game,omitempty"`
+	ShortDescription    *string             `json:"short_description,omitempty"`
+	HeaderImage         *string             `json:"header_image,omitempty"`
+	Website             *string             `json:"website,omitempty"`
+	Developers          []string            `json:"developers"`
+	Publishers          []string            `json:"publishers"`
+	Categories          []category          `json:"categories"`
+	Genres              []genre             `json:"genres"`
+	Screenshots         []screenshot        `json:"screenshots"`
+	ReleaseDate         *releaseDate        `json:"release_date,omitempty"`
+	Background          *string             `json:"background,omitempty"`
+	ContentDescriptors  *contentDescriptors `json:"content_descriptors,omitempty"`
+}
+
+type releaseDate struct {
+	ComingSoon *bool   `json:"coming_soon,omitempty"`
+	Date       *string `json:"date,omitempty"`
+}
+type screenshot struct {
+	ID            *int64  `json:"id,omitempty"`
+	PathThumbnail *string `json:"path_thumbnail,omitempty"`
+	PathFull      *string `json:"path_full,omitempty"`
+}
+
+type contentDescriptors struct {
+	IDS   []interface{} `json:"ids"`
+	Notes interface{}   `json:"notes"`
+}
+
 type category struct {
 	ID          *int64  `json:"id,omitempty"`
 	Description *string `json:"description,omitempty"`
