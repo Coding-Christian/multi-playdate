@@ -5,6 +5,7 @@ import ScrollToTop from './scrollToTop';
 import UserEntry from './userEntry';
 import FriendList from './friendList';
 import GameList from './gameList';
+import Auth from './auth';
 
 function App() {
   const [view, setView] = useState('initial');
@@ -47,14 +48,28 @@ function App() {
       />
     );
   }
+  let steamId = '';
+  if (window.location.search) {
+    const query = window.location.search;
+    const params = query.trimLeft('?').split('&');
+    const identity = params.find(param =>
+      param.startsWith('openid.identity')
+    );
+    const url = decodeURIComponent(identity.split('=')[1]);
+    const parts = url.split('/');
+    steamId = parts[parts.length - 1];
+  }
+
   return (
     <StyledAppArea>
       <Header />
+      <Auth />
       <UserEntry
         getFriends={getFriends}
         getSharedGames={getSharedGames}
         isLoading={isLoading}
         canGetGames={selectedIds.length > 1}
+        steamId={steamId}
       />
       {viewElement}
       <ScrollToTop display={isScrolled} />

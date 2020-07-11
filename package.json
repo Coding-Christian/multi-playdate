@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "go": "cd server && go build -o dist main.go && cd dist && ./main",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "precommit": "lint-staged"
   },
   "husky": {
     "hooks": {

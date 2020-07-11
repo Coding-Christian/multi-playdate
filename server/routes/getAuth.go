@@ -16,7 +16,7 @@ func AuthHandler(w http.ResponseWriter, r *http.Request) {
 	domain := r.Host
 	url, err := openid.RedirectURL(
 		"http://steamcommunity.com/openid",
-		"http://"+domain+"/authenticated",
+		"http://"+domain+"/",
 		"http://"+domain+"/")
 	if err != nil {
 		log.Printf("Error creating redirect URL: %q\n", err)

@@ -6,8 +6,14 @@ import StyledInput from './emotion/styledInput';
 import StyledCard from './emotion/styledCard';
 import Loader from './loader';
 
-function UserEntry({ getFriends, getSharedGames, isLoading, canGetGames }) {
-  const [userId, setUserId] = useState('');
+function UserEntry({
+  getFriends,
+  getSharedGames,
+  isLoading,
+  canGetGames,
+  steamId
+}) {
+  const [userId, setUserId] = useState(steamId);
   function resetForm() {
     setUserId('');
   }
