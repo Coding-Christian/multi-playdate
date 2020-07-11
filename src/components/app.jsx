@@ -18,7 +18,7 @@ function App() {
     setIsLoading(true);
     setSelectedIds([steamId]);
     setView('friends');
-    const response = await fetch(`/api/friends?steamid=${steamId}`);
+    const response = await fetch(`/api/friends?userid=${steamId}`);
     const users = await response.json();
     setIsLoading(false);
     setFriends(users);
@@ -28,7 +28,7 @@ function App() {
       setIsLoading(true);
       setView('games');
       const response = await fetch(
-        `/api/shared/games?steamids=${selectedIds.join(',')}`
+        `/api/shared/games?userids=${selectedIds.join(',')}`
       );
       const games = await response.json();
       setIsLoading(false);

@@ -19,23 +19,23 @@ func SetCache(cache *map[string]steam.GameInfo) {
 }
 
 func GetSharedGames(w http.ResponseWriter, r *http.Request) {
-	steamIDsParameter, ok := r.URL.Query()["steamids"]
+	userIDsParameter, ok := r.URL.Query()["userids"]
 	if !ok {
 		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte("steamids query parameter missing or malformed"))
+		w.Write([]byte("userids query parameter missing or malformed"))
 		return
 	}
 
-	steamIDsParsed := strings.Split(steamIDsParameter[0], ",")
-	if len(steamIDsParsed) < 2 {
+	userIDsParsed := strings.Split(userIDsParameter[0], ",")
+	if len(userIDsParsed) < 2 {
 		w.WriteHeader(http.StatusNotAcceptable)
-		w.Write([]byte("steamids must contain 2 or more integers seperated by commas"))
+		w.Write([]byte("userids must contain 2 or more integers seperated by commas"))
 		return
 	}
 
 	w.Header().Set("Content-Type", "application/json")
 
-	allGames, err := getGamesForAllPlayers(steamIDsParsed)
+	allGames, err := getGamesForAllPlayers(userIDsParsed)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("Error Getting Games: " + err.Error()))

@@ -41,7 +41,7 @@ func main() {
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/shared/games", routes.GetSharedGames).Methods(http.MethodGet)
 	api.HandleFunc("/game", routes.GetGameInfo).Methods(http.MethodGet)
-	api.HandleFunc("/friends/", routes.GetFriends).Methods(http.MethodGet)
+	api.HandleFunc("/friends", routes.GetFriends).Methods(http.MethodGet)
 	api.HandleFunc("/auth", routes.AuthHandler)
 
 	log.Println("Listening on port 8000")
